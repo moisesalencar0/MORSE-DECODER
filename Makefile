@@ -1,0 +1,69 @@
+CROSS_COMPILE = arm-none-eabi-
+CC = $(CROSS_COMPILE)gcc
+LD = $(CROSS_COMPILE)ld
+OBJCOPY = $(CROSS_COMPILE)objcopy
+
+COMMON_FLAGS := \
+	-mcpu=cortex-a8 \
+	-Wall \
+	-Wextra \
+	-Werror \
+	-Iapp \
+	-Iboard \
+	-Idrivers \
+	-Iperipherals \
+	-fno-builtin
+CFLAGS_DEBUG = -g -O0 
+CFLAGS_DEPLOY = -O2
+
+LDFLAGS = -T boot/memmap.ld
+
+SRCS = boot/startup.s \
+	app/main.c \
+	src/menu.c \
+	src/blink.c \
+	src/clk_enable.c \
+	src/pinmux.c \
+	src/delay.c \
+	src/watchdog.c \
+	src/uart_io.c \
+	src/gpio.c \
+	src/intc.c \
+	src/board.c
+
+OBJS = $(addprefix obj/, $(notdir $(SRCS:.c=.o)))
+OBJS := $(OBJS:.s=.o)
+
+TARGET = bin/app_pratica05
+
+all: debug
+
+debug: CFLAGS := $(COMMON_FLAGS) $(DEBUG_FLAGS)
+debug: $(TARGET).bin
+
+release: CFLAGS := $(COMMON_FLAGS) $(RELEASE_FLAGS)
+release: $(TARGET).bin
+
+obj/%.o: src/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+obj/%.o: app/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+obj/%.o: src/%.s
+	$(CC) $(CFLAGS) -c $< -o $@
+
+obj/%.o: boot/%.s
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(TARGET).elf: $(OBJS)
+	$(LD) $(LDFLAGS) $^ -o $@ 
+
+$(TARGET).bin: $(TARGET).elf
+	$(OBJCOPY) -O binary $< $@
+
+deploy: release
+	sudo cp $(TARGET).bin /srv/tftp/app_pratica05.bin
+
+clean:
+	rm -f obj/*.o bin/*.dump bin/*.elf bin/*.bin
