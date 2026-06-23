@@ -10,39 +10,32 @@
 #include "hw_regs.h"
 #include "hw_types.h"
 
+
+/* ============================================================================
+ * BOARD PIN MASKS
+ * =========================================================================
+
+#define BUTTON_UP                  (1 << 13)
+#define BUTTON_DOWN                (1 << 7)
+#define BBB_LED0                   (1 << 21)
+#define BBB_LED1                   (1 << 22)
+#define BBB_LED2                   (1 << 23)
+#define BBB_LED3                   (1 << 24)
+#define USER_LED                   (1 << 28)
+
 /* ──────────────────────────────────────────────── */
 /* GPIO1 API                                        */
 /* ──────────────────────────────────────────────── */
 
-/**
- * @brief Sets GPIO1 pins high.
- */
-#define GPIO1PinWriteHigh(pin)      HWREG(GPIO1_SETDATAOUT) = (pin)
-
-/**
- * @brief Sets GPIO1 pins low.
- */
-#define GPIO1PinWriteLow(pin)       HWREG(GPIO1_CLEARDATAOUT) = (pin)
-
-/**
- * @brief Configures GPIO1 pins as outputs.
- */
+#define ledOn(pin)                  HWREG(GPIO1_SETDATAOUT) = (pin)
+#define ledOff(pin)                 HWREG(GPIO1_CLEARDATAOUT) = (pin)
 #define GPIO1PinOutputEnable(pin)   HWREG(GPIO1_OE) &= ~(pin)
 
 /* ──────────────────────────────────────────────── */
 /* GPIO2 API                                        */
 /* ──────────────────────────────────────────────── */
 
-/**
- * @brief Reads GPIO2 pin state.
- *
- * @return Non-zero if pin is high.
- */
-#define GPIO2PinRead(pin)          (HWREG(GPIO2_DATAIN) & (pin))
-
-/**
- * @brief Configures GPIO2 pins as inputs.
- */
+#define pinRead(pin)               (HWREG(GPIO2_DATAIN) & (pin))
 #define GPIO2PinInputEnable(pin)    HWREG(GPIO2_OE) |= (pin)
 
 extern vuint32_t flag_gpio;
