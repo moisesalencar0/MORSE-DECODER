@@ -1,0 +1,162 @@
+/**
+ * @file    bbb_regs.h
+ * @brief   AM335x / BeagleBone Black register definitions and board pin masks.
+ */
+
+#ifndef BBB_REGS_H_
+#define BBB_REGS_H_
+
+#include "soc_AM335x.h"
+
+/* ============================================================================
+ * PINMUX OFFSETS
+ * ========================================================================= */
+
+/** GPIO1_21 (USR0) */
+#define CM_conf_gpmc_a5     (0x0854)
+
+/** GPIO1_22 (USR1) */
+#define CM_conf_gpmc_a6     (0x0858)
+
+/** GPIO1_23 (USR2) */
+#define CM_conf_gpmc_a7     (0x085C)
+
+/** GPIO1_24 (USR3) */
+#define CM_conf_gpmc_a8     (0x0860)
+
+/** GPIO1_28 (External LED) */
+#define CM_conf_gpmc_ben1   (0x0878)
+
+/** GPIO2_6 (BUTTON_1) */
+#define CM_conf_lcd_data0   (0x08A0)
+
+/** GPIO2_7 (BUTTON_2) */
+#define CM_conf_lcd_data1   (0x08A4)
+
+/** GPIO1_13 (BUTTON_1) */
+#define CM_conf_gpmc_ad13   (0x0834)
+
+/* ============================================================================
+ * BOARD PIN MASKS
+ * ========================================================================= */
+
+/** User button 1 */
+#define BUTTON_1    (1 << 13)
+
+/** User button 2 */
+#define BUTTON_2    (1 << 7)
+
+/** BBB onboard LED USR0 */
+#define USR0        (1 << 21)
+
+/** BBB onboard LED USR1 */
+#define USR1        (1 << 22)
+
+/** BBB onboard LED USR2 */
+#define USR2        (1 << 23)
+
+/** BBB onboard LED USR3 */
+#define USR3        (1 << 24)
+
+/** External LED */
+#define LED         (1 << 28)
+
+/* ============================================================================
+ * CLOCK MANAGEMENT
+ * ========================================================================= */
+
+#define CM_PER_GPIO1_CLKCTRL     (0x0AC)
+#define CM_PER_GPIO2_CLKCTRL     (0x0B0)
+#define CM_PER_GPIO3_CLKCTRL     (0x0B4)
+#define CM_PER_TIMER7_CLKCTRL    (0x07C)
+
+/* ============================================================================
+ * GPIO REGISTERS
+ * ========================================================================= */
+
+#define GPIO1_OE                        (SOC_GPIO_1_REGS + 0x134)
+#define GPIO1_CLEARDATAOUT              (SOC_GPIO_1_REGS + 0x190)
+#define GPIO1_SETDATAOUT                (SOC_GPIO_1_REGS + 0x194)
+#define GPIO1_DATAIN                    (SOC_GPIO_2_REGS + 0x138)
+
+#define GPIO2_OE                        (SOC_GPIO_2_REGS + 0x134)
+#define GPIO2_DATAIN                    (SOC_GPIO_2_REGS + 0x138)
+
+#define GPIO1_IRQSTATUS_0               (SOC_GPIO_1_REGS + 0x02C)
+#define GPIO1_IRQSTATUS_SET_0           (SOC_GPIO_1_REGS + 0x034)
+#define GPIO1_IRQSTATUS_CLR_0           (SOC_GPIO_1_REGS + 0x03C)
+#define GPIO1_RISINGDETECT              (SOC_GPIO_1_REGS + 0x148)
+
+#define GPIO1_DEBOUNCENABLE   (SOC_GPIO_1_REGS + 0x150)
+#define GPIO1_DEBOUNCINGTIME  (SOC_GPIO_1_REGS + 0x154)
+
+/* ============================================================================
+ * UART0 REGISTERS
+ * ========================================================================= */
+
+#define UART0_RHR           (SOC_UART_0_REGS + 0x000)
+#define UART0_THR           (SOC_UART_0_REGS + 0x000)
+#define UART0_LSR           (SOC_UART_0_REGS + 0x014)
+
+/**
+ * @brief Returns non-zero if UART RX buffer contains data.
+ */
+#define UART_DATA_IN() \
+    (HWREG(UART0_LSR) & (1 << 0))
+
+/* ============================================================================
+ * DMTIMER REGISTERS
+ * ========================================================================= */
+
+#define DMTIMER_TCLR                (0x0038)
+#define DMTIMER_TCRR                (0x003C)
+#define DMTIMER_TLDR                (0x0040)
+#define DMTIMER_TWPS                (0x0048)
+#define DMTIMER_TSICR               (0x0054)
+
+#define DMTIMER_TSICR_POSTED        (1 << 2)
+
+#define DMTIMER_TCLR_ST             (1 << 0)
+
+#define DMTIMER_TWPS_W_PEND_TCLR    (1 << 0)
+#define DMTIMER_TWPS_W_PEND_TCRR    (1 << 1)
+
+#define DMTIMER_WRITE_POST_TCLR     (1 << 0)
+#define DMTIMER_WRITE_POST_TCRR     (1 << 2)
+
+/* ============================================================================
+ * WATCHDOG REGISTERS
+ * ========================================================================= */
+
+#define WDT1_WTGR           (SOC_WDT_1_REGS + 0x030) // Trigger Register
+#define WDT1_WWPS           (SOC_WDT_1_REGS + 0x034) // Write Posting Bits Register
+#define WDT1_WSPR           (SOC_WDT_1_REGS + 0x048) // Start/Stop Register
+#define WWPS_PEND_WTGR      (1 << 3)
+#define WWPS_PEND_WSPR      (1 << 4)
+
+/* ============================================================================
+ * INTC REGISTERS
+ * ========================================================================= */
+
+#define INTC_SYSCONFIG                   (0x010)
+#define INTC_SYSSTATUS                   (0x014)
+#define INTC_THRESHOLD                   (0x068)
+#define INTC_SYSCONFIG_SOFTRESET         (1 << 1)
+#define INTC_SYSSTATUS_RESETDONE         (1 << 0)
+#define INTC_THRESHOLD_PRIORITYTHRESHOLD (0xFF)
+
+#define INTC_MIR_CLEAR1                  (0x0A8)
+#define INTC_MIR_CLEAR2                  (0x0C8)
+#define INTC_MIR_CLEAR3                  (0x0E8)
+
+#define IRQSTATUS_SET_0                  (0x034)
+#define RISINGDETECT                     (0x148)
+
+#define INTC_SIR_IRQ                     (0x040)
+#define INTC_CONTROL                     (0x048)
+
+#define DMTIMER_IRQSTATUS                (0x028)
+#define DMTIMER_IRQENABLE_SET            (0x02C)
+#define DMTIMER_IRQENABLE_CLR            (0x030)
+
+#endif

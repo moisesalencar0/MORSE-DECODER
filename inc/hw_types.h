@@ -84,4 +84,10 @@ typedef unsigned char tBoolean;
 #define TRUE    1
 #define FALSE   0
 
+/* Fixed-width integer types (C99 standard, guaranteed sizes across architectures) */
+#include <stdint.h>
+
+typedef volatile uint32_t vuint32_t;
+typedef unsigned char uint8_t;
+
 #endif // __HW_TYPES_H__
