@@ -644,3 +644,19 @@ Com:
 * novo evento apenas após soltar ambos os botões.
 
 ---
+
+ARQUIVOS:
+snake_case
+ex: gpio.c
+
+FUNÇÕES:
+Modulo_Acao()
+ex: GPIO_Init()
+
+VARIÁVEIS:
+snake_case
+
+CONSTANTES E DEFINES:
+UPPER_CASE
+ex:
+#define LED_PIN 21

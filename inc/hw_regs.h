@@ -9,69 +9,48 @@
 #include "soc_AM335x.h"
 
 /* ============================================================================
- * PINMUX OFFSETS
+ * BBB PINMUX REGISTES
  * ========================================================================= */
 
-/** GPIO1_21 (USR0) */
-#define CM_conf_gpmc_a5     (0x0854)
-
-/** GPIO1_22 (USR1) */
-#define CM_conf_gpmc_a6     (0x0858)
-
-/** GPIO1_23 (USR2) */
-#define CM_conf_gpmc_a7     (0x085C)
-
-/** GPIO1_24 (USR3) */
-#define CM_conf_gpmc_a8     (0x0860)
-
-/** GPIO1_28 (External LED) */
-#define CM_conf_gpmc_ben1   (0x0878)
-
-/** GPIO2_6 (BUTTON_1) */
-#define CM_conf_lcd_data0   (0x08A0)
-
-/** GPIO2_7 (BUTTON_2) */
-#define CM_conf_lcd_data1   (0x08A4)
-
-/** GPIO1_13 (BUTTON_1) */
-#define CM_conf_gpmc_ad13   (0x0834)
+#define CM_CONF_GPMC_A5                  (0x0854) // GPIO1_21
+#define CM_CONF_GPMC_BEN1                (0x0878) // GPIO1_28
+#define CM_CONF_LCD_DATA0                (0x08A0) // GPIO2_6
+#define CM_CONF_LCD_DATA1                (0x08A4) // GPIO2_7
 
 /* ============================================================================
- * CLOCK MANAGEMENT
+ * CLOCK MANAGEMENT REGISTERS
  * ========================================================================= */
 
-#define CM_PER_GPIO1_CLKCTRL     (0x0AC)
-#define CM_PER_GPIO2_CLKCTRL     (0x0B0)
-#define CM_PER_GPIO3_CLKCTRL     (0x0B4)
-#define CM_PER_TIMER7_CLKCTRL    (0x07C)
+#define CM_PER_GPIO1_CLKCTRL             (0x0AC)
+#define CM_PER_GPIO2_CLKCTRL             (0x0B0)
+#define CM_PER_TIMER7_CLKCTRL            (0x07C)
 
 /* ============================================================================
  * GPIO REGISTERS
  * ========================================================================= */
 
-#define GPIO1_OE                        (SOC_GPIO_1_REGS + 0x134)
-#define GPIO1_CLEARDATAOUT              (SOC_GPIO_1_REGS + 0x190)
-#define GPIO1_SETDATAOUT                (SOC_GPIO_1_REGS + 0x194)
-#define GPIO1_DATAIN                    (SOC_GPIO_2_REGS + 0x138)
+#define GPIO1_OE                         (SOC_GPIO_1_REGS + 0x134)
+#define GPIO1_CLEARDATAOUT               (SOC_GPIO_1_REGS + 0x190)
+#define GPIO1_SETDATAOUT                 (SOC_GPIO_1_REGS + 0x194)
 
-#define GPIO2_OE                        (SOC_GPIO_2_REGS + 0x134)
-#define GPIO2_DATAIN                    (SOC_GPIO_2_REGS + 0x138)
+#define GPIO2_OE                         (SOC_GPIO_2_REGS + 0x134)
+#define GPIO2_DATAIN                     (SOC_GPIO_2_REGS + 0x138)
 
-#define GPIO2_IRQSTATUS_0               (SOC_GPIO_2_REGS + 0x02C)
-#define GPIO2_IRQSTATUS_SET_0           (SOC_GPIO_2_REGS + 0x034)
-#define GPIO2_IRQSTATUS_CLR_0           (SOC_GPIO_2_REGS + 0x03C)
-#define GPIO2_RISINGDETECT              (SOC_GPIO_2_REGS + 0x148)
+#define GPIO2_IRQSTATUS_0                (SOC_GPIO_2_REGS + 0x02C)
+#define GPIO2_IRQSTATUS_SET_0            (SOC_GPIO_2_REGS + 0x034)
+#define GPIO2_IRQSTATUS_CLR_0            (SOC_GPIO_2_REGS + 0x03C)
+#define GPIO2_RISINGDETECT               (SOC_GPIO_2_REGS + 0x148)
 
-#define GPIO2_DEBOUNCENABLE             (SOC_GPIO_2_REGS + 0x150)
-#define GPIO2_DEBOUNCINGTIME            (SOC_GPIO_2_REGS + 0x154)
+#define GPIO2_DEBOUNCENABLE              (SOC_GPIO_2_REGS + 0x150)
+#define GPIO2_DEBOUNCINGTIME             (SOC_GPIO_2_REGS + 0x154)
 
 /* ============================================================================
  * UART0 REGISTERS
  * ========================================================================= */
 
-#define UART0_RHR           (SOC_UART_0_REGS + 0x000)
-#define UART0_THR           (SOC_UART_0_REGS + 0x000)
-#define UART0_LSR           (SOC_UART_0_REGS + 0x014)
+#define UART0_RHR                        (SOC_UART_0_REGS + 0x000)
+#define UART0_THR                        (SOC_UART_0_REGS + 0x000)
+#define UART0_LSR                        (SOC_UART_0_REGS + 0x014)
 
 /**
  * @brief Returns non-zero if UART RX buffer contains data.
@@ -83,21 +62,19 @@
  * DMTIMER REGISTERS
  * ========================================================================= */
 
-#define DMTIMER_TCLR                (0x0038)
-#define DMTIMER_TCRR                (0x003C)
-#define DMTIMER_TLDR                (0x0040)
-#define DMTIMER_TWPS                (0x0048)
-#define DMTIMER_TSICR               (0x0054)
+#define DMTIMER_TCLR                     (0x0038)
+#define DMTIMER_TCRR                     (0x003C)
+#define DMTIMER_TLDR                     (0x0040)
+#define DMTIMER_TWPS                     (0x0048)
+#define DMTIMER_TSICR                    (0x0054)
+#define DMTIMER_TSICR_POSTED             (1 << 2)
+#define DMTIMER_TCLR_ST                  (1 << 0)
 
-#define DMTIMER_TSICR_POSTED        (1 << 2)
+#define DMTIMER_TWPS_W_PEND_TCLR         (1 << 0)
+#define DMTIMER_TWPS_W_PEND_TCRR         (1 << 1)
 
-#define DMTIMER_TCLR_ST             (1 << 0)
-
-#define DMTIMER_TWPS_W_PEND_TCLR    (1 << 0)
-#define DMTIMER_TWPS_W_PEND_TCRR    (1 << 1)
-
-#define DMTIMER_WRITE_POST_TCLR     (1 << 0)
-#define DMTIMER_WRITE_POST_TCRR     (1 << 2)
+#define DMTIMER_WRITE_POST_TCLR          (1 << 0)
+#define DMTIMER_WRITE_POST_TCRR          (1 << 2)
 
 #define DMTIMER_IRQSTATUS                (0x028)
 #define DMTIMER_IRQENABLE_SET            (0x02C)
@@ -107,11 +84,11 @@
  * WATCHDOG REGISTERS
  * ========================================================================= */
 
-#define WDT1_WTGR           (SOC_WDT_1_REGS + 0x030) // Trigger Register
-#define WDT1_WWPS           (SOC_WDT_1_REGS + 0x034) // Write Posting Bits Register
-#define WDT1_WSPR           (SOC_WDT_1_REGS + 0x048) // Start/Stop Register
-#define WWPS_PEND_WTGR      (1 << 3)
-#define WWPS_PEND_WSPR      (1 << 4)
+#define WDT1_WTGR                        (SOC_WDT_1_REGS + 0x030) // Trigger Register
+#define WDT1_WWPS                        (SOC_WDT_1_REGS + 0x034) // Write Posting Bits Register
+#define WDT1_WSPR                        (SOC_WDT_1_REGS + 0x048) // Start/Stop Register
+#define WWPS_PEND_WTGR                   (1 << 3)
+#define WWPS_PEND_WSPR                   (1 << 4)
 
 /* ============================================================================
  * INTC REGISTERS
@@ -133,6 +110,5 @@
 
 #define INTC_SIR_IRQ                     (0x040)
 #define INTC_CONTROL                     (0x048)
-
 
 #endif
