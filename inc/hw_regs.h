@@ -37,31 +37,6 @@
 #define CM_conf_gpmc_ad13   (0x0834)
 
 /* ============================================================================
- * BOARD PIN MASKS
- * ========================================================================= */
-
-/** User button 1 */
-#define BUTTON_1    (1 << 13)
-
-/** User button 2 */
-#define BUTTON_2    (1 << 7)
-
-/** BBB onboard LED USR0 */
-#define USR0        (1 << 21)
-
-/** BBB onboard LED USR1 */
-#define USR1        (1 << 22)
-
-/** BBB onboard LED USR2 */
-#define USR2        (1 << 23)
-
-/** BBB onboard LED USR3 */
-#define USR3        (1 << 24)
-
-/** External LED */
-#define LED         (1 << 28)
-
-/* ============================================================================
  * CLOCK MANAGEMENT
  * ========================================================================= */
 
