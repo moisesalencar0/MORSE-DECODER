@@ -5,7 +5,7 @@
  * @date   2026-06-22
  */
 
-// #include "board.h"
+#include "board.h"
 
 /**
  * @brief Application entry point.

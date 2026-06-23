@@ -38,6 +38,9 @@
 #define pinRead(pin)               (HWREG(GPIO2_DATAIN) & (pin))
 #define GPIO2PinInputEnable(pin)    HWREG(GPIO2_OE) |= (pin)
 
+
+void gpio_init(void);
+
 extern vuint32_t flag_gpio;
 
 void GPIOIntConfig(void);

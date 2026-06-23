@@ -9,6 +9,19 @@
 #include "hw_regs.h"
 #include "hw_types.h"
 
+#define SETTING  ((1<<18) | 2)
+
+void gpio_init(void){
+    void CLK_ENABLE_GPIO1(){
+        HWREG(SOC_CM_PER_REGS + CM_PER_GPIO1_CLKCTRL) |= SETTING;
+        while((HWREG(SOC_CM_PER_REGS + CM_PER_GPIO1_CLKCTRL) & SETTING) == 0){};
+    }
+    void CLK_ENABLE_GPIO2(){
+        HWREG(SOC_CM_PER_REGS + CM_PER_GPIO2_CLKCTRL) |= SETTING;
+        while((HWREG(SOC_CM_PER_REGS + CM_PER_GPIO2_CLKCTRL) & SETTING) == 0){};
+    }
+}
+
 /**
  * @brief Global flag for button event.
  *

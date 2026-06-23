@@ -20,16 +20,13 @@ LDFLAGS = -T boot/memmap.ld
 
 SRCS = boot/startup.s \
 	app/main.c \
-	src/menu.c \
-	src/blink.c \
-	src/clk_enable.c \
-	src/pinmux.c \
-	src/delay.c \
-	src/watchdog.c \
-	src/uart_io.c \
-	src/gpio.c \
-	src/intc.c \
-	src/board.c
+	drivers/pinmux.c \
+	drivers/delay.c \
+	drivers/watchdog.c \
+	drivers/uart_io.c \
+	drivers/gpio.c \
+	drivers/intc.c \
+	board/board.c
 
 OBJS = $(addprefix obj/, $(notdir $(SRCS:.c=.o)))
 OBJS := $(OBJS:.s=.o)
