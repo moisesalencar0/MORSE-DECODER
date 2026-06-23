@@ -24,27 +24,22 @@
 #define USER_LED                   (1 << 28)
 
 /* ──────────────────────────────────────────────── */
-/* GPIO1 API                                        */
+/* GPIO API      GPIO1: INPUT GPIO2: OUTPU*/
 /* ──────────────────────────────────────────────── */
 
-#define ledOn(pin)                  HWREG(GPIO1_SETDATAOUT) = (pin)
-#define ledOff(pin)                 HWREG(GPIO1_CLEARDATAOUT) = (pin)
-#define GPIO1PinOutputEnable(pin)   HWREG(GPIO1_OE) &= ~(pin)
-
-/* ──────────────────────────────────────────────── */
-/* GPIO2 API                                        */
-/* ──────────────────────────────────────────────── */
-
-#define pinRead(pin)               (HWREG(GPIO2_DATAIN) & (pin))
-#define GPIO2PinInputEnable(pin)    HWREG(GPIO2_OE) |= (pin)
+#define Led_On(pin)                   HWREG(GPIO1_SETDATAOUT) = (pin)
+#define Led_Off(pin)                  HWREG(GPIO1_CLEARDATAOUT) = (pin)
+#define GPIO_Pin_Output_Enable(pin)   HWREG(GPIO1_OE) &= ~(pin)
+#define Pin_Read(pin)                (HWREG(GPIO2_DATAIN) & (pin))
+#define GPIO_Pin_Input_Enable(pin)    HWREG(GPIO2_OE) |= (pin)
 
 
-void gpio_init(void);
+void GPIO_Init(void);
 
 extern vuint32_t flag_gpio;
 
-void GPIOIntConfig(void);
+void GPIO_Interrupt_Config(void);
 
-void GPIOIsr(void);
+void GPIO_ISR(void);
 
 #endif /* GPIO_H */

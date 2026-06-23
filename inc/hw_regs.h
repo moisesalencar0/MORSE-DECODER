@@ -57,13 +57,13 @@
 #define GPIO2_OE                        (SOC_GPIO_2_REGS + 0x134)
 #define GPIO2_DATAIN                    (SOC_GPIO_2_REGS + 0x138)
 
-#define GPIO1_IRQSTATUS_0               (SOC_GPIO_1_REGS + 0x02C)
-#define GPIO1_IRQSTATUS_SET_0           (SOC_GPIO_1_REGS + 0x034)
-#define GPIO1_IRQSTATUS_CLR_0           (SOC_GPIO_1_REGS + 0x03C)
-#define GPIO1_RISINGDETECT              (SOC_GPIO_1_REGS + 0x148)
+#define GPIO2_IRQSTATUS_0               (SOC_GPIO_2_REGS + 0x02C)
+#define GPIO2_IRQSTATUS_SET_0           (SOC_GPIO_2_REGS + 0x034)
+#define GPIO2_IRQSTATUS_CLR_0           (SOC_GPIO_2_REGS + 0x03C)
+#define GPIO2_RISINGDETECT              (SOC_GPIO_2_REGS + 0x148)
 
-#define GPIO1_DEBOUNCENABLE   (SOC_GPIO_1_REGS + 0x150)
-#define GPIO1_DEBOUNCINGTIME  (SOC_GPIO_1_REGS + 0x154)
+#define GPIO2_DEBOUNCENABLE             (SOC_GPIO_2_REGS + 0x150)
+#define GPIO2_DEBOUNCINGTIME            (SOC_GPIO_2_REGS + 0x154)
 
 /* ============================================================================
  * UART0 REGISTERS
@@ -99,6 +99,10 @@
 #define DMTIMER_WRITE_POST_TCLR     (1 << 0)
 #define DMTIMER_WRITE_POST_TCRR     (1 << 2)
 
+#define DMTIMER_IRQSTATUS                (0x028)
+#define DMTIMER_IRQENABLE_SET            (0x02C)
+#define DMTIMER_IRQENABLE_CLR            (0x030)
+
 /* ============================================================================
  * WATCHDOG REGISTERS
  * ========================================================================= */
@@ -130,8 +134,5 @@
 #define INTC_SIR_IRQ                     (0x040)
 #define INTC_CONTROL                     (0x048)
 
-#define DMTIMER_IRQSTATUS                (0x028)
-#define DMTIMER_IRQENABLE_SET            (0x02C)
-#define DMTIMER_IRQENABLE_CLR            (0x030)
 
 #endif

@@ -31,7 +31,7 @@ SRCS = boot/startup.s \
 OBJS = $(addprefix obj/, $(notdir $(SRCS:.c=.o)))
 OBJS := $(OBJS:.s=.o)
 
-TARGET = bin/app_pratica05
+TARGET = bin/temp_monitor
 
 all: debug
 
@@ -60,7 +60,7 @@ $(TARGET).bin: $(TARGET).elf
 	$(OBJCOPY) -O binary $< $@
 
 deploy: release
-	sudo cp $(TARGET).bin /srv/tftp/app_pratica05.bin
+	sudo cp $(TARGET).bin /srv/tftp/temp_monitor.bin
 
 clean:
 	rm -f obj/*.o bin/*.dump bin/*.elf bin/*.bin
