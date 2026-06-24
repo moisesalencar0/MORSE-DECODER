@@ -12,10 +12,12 @@
  * BBB PINMUX REGISTES
  * ========================================================================= */
 
-#define CM_CONF_GPMC_A5                  (0x0854) // GPIO1_21
-#define CM_CONF_GPMC_BEN1                (0x0878) // GPIO1_28
-#define CM_CONF_LCD_DATA0                (0x08A0) // GPIO2_6
-#define CM_CONF_LCD_DATA1                (0x08A4) // GPIO2_7
+#define CM_CONF_GPMC_A1                  (0x844) // GPIO1_17
+#define CM_CONF_GPMC_A5                  (0x854) // GPIO1_21
+#define CM_CONF_GPMC_BEN1                (0x878) // GPIO1_28
+
+#define CM_CONF_LCD_DATA0                (0x8A0) // GPIO2_6
+#define CM_CONF_LCD_DATA1                (0x8A4) // GPIO2_7
 
 /* ============================================================================
  * CLOCK MANAGEMENT REGISTERS
@@ -62,11 +64,11 @@
  * DMTIMER REGISTERS
  * ========================================================================= */
 
-#define DMTIMER_TCLR                     (0x0038)
-#define DMTIMER_TCRR                     (0x003C)
-#define DMTIMER_TLDR                     (0x0040)
-#define DMTIMER_TWPS                     (0x0048)
-#define DMTIMER_TSICR                    (0x0054)
+#define DMTIMER_TCLR                     (0x038)
+#define DMTIMER_TCRR                     (0x03C)
+#define DMTIMER_TLDR                     (0x040)
+#define DMTIMER_TWPS                     (0x048)
+#define DMTIMER_TSICR                    (0x054)
 #define DMTIMER_TSICR_POSTED             (1 << 2)
 #define DMTIMER_TCLR_ST                  (1 << 0)
 

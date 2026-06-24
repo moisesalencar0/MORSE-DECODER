@@ -23,6 +23,9 @@ void BBB_Pinmux(void){
     uint32_t mode_output = 0x7;
     uint32_t mode_input = 0x27;
 
+    HWREG(SOC_CONTROL_REGS + CM_CONF_GPMC_A1)   |= mode_output;
+    HWREG(GPIO1_OE) &= ~(BUZZER);
+
     HWREG(SOC_CONTROL_REGS + CM_CONF_GPMC_A5)   |= mode_output;
     HWREG(GPIO1_OE) &= ~(DEBUG_LED);
 

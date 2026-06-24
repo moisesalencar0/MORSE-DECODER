@@ -22,10 +22,10 @@ void _main(void){
     while(1){
         if(button_pressed){
             button_pressed = false;
-            Led_On(DEBUG_LED);
+            Buzzer_On;
             DMTimer_Delay(2);
         }
-        else Led_Off(DEBUG_LED);//
+        else Buzzer_Off;
     }
 }
 

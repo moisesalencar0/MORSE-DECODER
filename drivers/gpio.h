@@ -16,6 +16,7 @@
 
 #define BUTTON_DOWN                  (1 << 6)
 #define BUTTON_UP                    (1 << 7)
+#define BUZZER                       (1 << 17)
 #define DEBUG_LED                    (1 << 21) // first internal led
 #define USER_LED                     (1 << 28) // red led
 
@@ -25,6 +26,9 @@
 
 #define Led_On(pin)                   HWREG(GPIO1_SETDATAOUT) = (pin)
 #define Led_Off(pin)                  HWREG(GPIO1_CLEARDATAOUT) = (pin)
+#define Buzzer_On                     HWREG(GPIO1_SETDATAOUT) = BUZZER
+#define Buzzer_Off                    HWREG(GPIO1_CLEARDATAOUT) = BUZZER
+
 #define GPIO_Pin_Output_Enable(pin)   HWREG(GPIO1_OE) &= ~(pin)
 #define Pin_Read(pin)                (HWREG(GPIO2_DATAIN) & (pin))
 #define GPIO_Pin_Input_Enable(pin)    HWREG(GPIO2_OE) |= (pin)
