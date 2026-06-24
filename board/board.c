@@ -28,7 +28,7 @@ void BBB_Pinmux(void){
  */
 void Board_Init(void) {
     BBB_Pinmux();
-    GPIO_Init;
+    //GPIO_Init;
     
 }
 

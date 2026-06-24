@@ -1,6 +1,7 @@
 CROSS_COMPILE = arm-none-eabi-
-CC = $(CROSS_COMPILE)gcc
-LD = $(CROSS_COMPILE)ld
+
+CC      = $(CROSS_COMPILE)gcc
+LD      = $(CROSS_COMPILE)ld
 OBJCOPY = $(CROSS_COMPILE)objcopy
 
 COMMON_FLAGS := \
@@ -12,16 +13,18 @@ COMMON_FLAGS := \
 	-Iboard \
 	-Idrivers \
 	-Iperipherals \
+	-Iinc \
 	-fno-builtin
-CFLAGS_DEBUG = -g -O0 
+
+CFLAGS_DEBUG  = -g -O0
 CFLAGS_DEPLOY = -O2
 
 LDFLAGS = -T boot/memmap.ld
 
-SRCS = boot/startup.s \
+SRCS = \
+	boot/startup.s \
 	app/main.c \
-	drivers/pinmux.c \
-	drivers/delay.c \
+	drivers/timer.c \
 	drivers/watchdog.c \
 	drivers/uart_io.c \
 	drivers/gpio.c \
@@ -35,32 +38,38 @@ TARGET = bin/temp_monitor
 
 all: debug
 
-debug: CFLAGS := $(COMMON_FLAGS) $(DEBUG_FLAGS)
+debug: CFLAGS := $(COMMON_FLAGS) $(CFLAGS_DEBUG)
 debug: $(TARGET).bin
 
-release: CFLAGS := $(COMMON_FLAGS) $(RELEASE_FLAGS)
+release: CFLAGS := $(COMMON_FLAGS) $(CFLAGS_DEPLOY)
 release: $(TARGET).bin
 
-obj/%.o: src/%.c
-	$(CC) $(CFLAGS) -c $< -o $@
 
 obj/%.o: app/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-obj/%.o: src/%.s
+obj/%.o: drivers/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+obj/%.o: board/%.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 obj/%.o: boot/%.s
 	$(CC) $(CFLAGS) -c $< -o $@
 
+
 $(TARGET).elf: $(OBJS)
-	$(LD) $(LDFLAGS) $^ -o $@ 
+	$(LD) $(LDFLAGS) $^ -o $@
 
 $(TARGET).bin: $(TARGET).elf
 	$(OBJCOPY) -O binary $< $@
+
 
 deploy: release
 	sudo cp $(TARGET).bin /srv/tftp/temp_monitor.bin
 
 clean:
-	rm -f obj/*.o bin/*.dump bin/*.elf bin/*.bin
+	rm -f obj/*.o
+	rm -f bin/*.elf
+	rm -f bin/*.bin
+	rm -f bin/*.dump

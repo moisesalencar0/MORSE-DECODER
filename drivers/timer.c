@@ -8,7 +8,7 @@
 #include "soc_AM335x.h"
 #include "hw_types.h"
 #include "hw_regs.h"
-//#include "intc.h"
+#include "intc.h"
 
 
 /** @brief Maximum value of 32 bit. */

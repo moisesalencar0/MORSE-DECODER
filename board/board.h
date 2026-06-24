@@ -6,6 +6,6 @@
 #ifndef BOARD_H
 #define BOARD_H
 
-void board_init(void);
+void Board_Init(void);
 
 #endif /* BOARD_H */

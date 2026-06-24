@@ -14,7 +14,7 @@
  * [..;]
  */
 void _main(void){
-    board_init();
+    Board_Init();
 
     while(1){
 

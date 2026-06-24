@@ -45,7 +45,7 @@ void ISR_Handler(void) {
             DMTimerIsr();
             break;
         case SYS_INT_GPIOINT2A:
-            gpioIsr();
+            GPIO_ISR();
             break;
         default:
             break;

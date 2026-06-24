@@ -48,7 +48,7 @@ uint8_t scanChar(void) {
  */
 uint32_t printString(char *str, uint32_t length) {
     for(uint32_t i = 0; i < length; i++) {
-        putCh(str[i]);
+        printChar(str[i]);
     }
     return(length);
 }
