@@ -6,7 +6,7 @@
 #ifndef WATCHDOG_H_
 #define WATCHDOG_H_
 
-void WDT1_DISABLE(void);
-void WDT1_TRIGGER(void);
+void Watchdog_Disable(void);
+void Watchdog_Trigger(void);
 
 #endif /* WATCHDOG_H_ */

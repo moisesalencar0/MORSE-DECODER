@@ -8,6 +8,7 @@
 #include "hw_types.h"
 #include "soc_AM335x.h"
 
+#include "watchdog.h"
 #include "gpio.h"
 #include "timer.h"
 #include "intc.h"
@@ -42,9 +43,11 @@ void BBB_Pinmux(void){
  * and defines GPIO directions (output for LEDs, input for buttons).
  */
 void Board_Init(void) {
+    Watchdog_Disable();
     BBB_Pinmux();
-    GPIO_Init();
     INTC_Init();
     DMTimer_Init();
     DMTimer_IntConfig();
+    GPIO_Init();
+    GPIO_IntConfig();
 }

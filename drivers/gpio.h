@@ -34,7 +34,7 @@ void GPIO_Init(void);
 
 extern vuint32_t button_pressed;
 
-void GPIO_Interrupt_Config(void);
+void GPIO_IntConfig(void);
 
 void GPIO_ISR(void);
 

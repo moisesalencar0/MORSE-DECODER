@@ -18,7 +18,7 @@ static vuint32_t wtgr_val = 0;
  * Writes alternating values to the watchdog trigger register
  * and waits for write completion.
  */
-void WDT1_TRIGGER() {
+void Watchdog_Trigger() {
     wtgr_val ^= 0xFFFFFFFF;
     HWREG(WDT1_WTGR) = wtgr_val;
     while (HWREG(WDT1_WWPS) & WWPS_PEND_WTGR);
@@ -30,7 +30,7 @@ void WDT1_TRIGGER() {
  * Writes the required unlock sequence to stop the watchdog
  * and waits for write completion after each step.
  */
-void WDT1_DISABLE() {
+void Watchdog_Disable() {
     HWREG(WDT1_WSPR) = 0xAAAA;
     while (HWREG(WDT1_WWPS) & WWPS_PEND_WSPR);
 

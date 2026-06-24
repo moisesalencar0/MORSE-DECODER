@@ -8,6 +8,7 @@
 #include "board.h"
 #include "gpio.h"
 #include "timer.h"
+#include "watchdog.h"
 
 /**
  * @brief Application entry point.
@@ -19,10 +20,12 @@ void _main(void){
     Board_Init();
     
     while(1){
-        Led_On(DEBUG_LED);
-        DMTimer_Delay(1);
-        Led_Off(DEBUG_LED);
-        DMTimer_Delay(1);
+        if(button_pressed){
+            button_pressed = false;
+            Led_On(DEBUG_LED);
+            DMTimer_Delay(2);
+        }
+        else Led_Off(DEBUG_LED);//
     }
 }
 

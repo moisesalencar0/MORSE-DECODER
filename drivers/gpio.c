@@ -9,6 +9,8 @@
 #include "hw_regs.h"
 #include "hw_types.h"
 
+#include "timer.h"
+
 
 #define SETTING  ((1<<18) | 2)
 
@@ -39,23 +41,24 @@ vuint32_t button_pressed = false;
  * Enables the interrupt on pin 6 via GPIO2_IRQSTATUS_SET_0.
  * Configures rising edge detection via GPIO2_RISINGDETECT.
  */
- void GPIO_Interrupt_Config(void) {
+ void GPIO_IntConfig(void) {
     HWREG(SOC_AINTC_REGS + INTC_MIR_CLEAR1) |= (1 << 0);
     
-    HWREG(GPIO2_DEBOUNCINGTIME)  = 0xFF;       // ~8ms
-    HWREG(GPIO2_DEBOUNCENABLE)  |= (1 << 6);
-    
-    HWREG(GPIO2_IRQSTATUS_SET_0)  |= (1 << 6);
-    HWREG(GPIO2_RISINGDETECT)     |= (1 << 6);
+    HWREG(GPIO2_DEBOUNCINGTIME)   =  0xFF;    // ~8ms
+    HWREG(GPIO2_DEBOUNCENABLE)   |= (1 << 6);
+
+    HWREG(GPIO2_IRQSTATUS_SET_0) |= (1 << 6);
+    HWREG(GPIO2_RISINGDETECT)    |= (1 << 6);
 }
 
 
 /** BREAK: fazer essa função ser reaproveitável
  * @brief GPIO1 interrupt service routine.
  *
- * Clears the interrupt flag for pin 13 in hardware and signals the event to @c main() through @c flag_gpio.
+ * Clears the interrupt flag for pin 6 in hardware and signals the event to @c main() through @c flag_gpio.
  */
  void GPIO_ISR(void) {
-    HWREG(GPIO2_IRQSTATUS_0) = (1 << 13);
+    HWREG(GPIO2_IRQSTATUS_0)      = (1 << 6);
+
     button_pressed = true;
 }
