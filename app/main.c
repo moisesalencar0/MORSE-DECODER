@@ -7,6 +7,7 @@
 
 #include "board.h"
 #include "gpio.h"
+#include "timer.h"
 
 /**
  * @brief Application entry point.
@@ -16,9 +17,12 @@
  */
 void _main(void){
     Board_Init();
-
+    
     while(1){
         Led_On(DEBUG_LED);
-        Led_On(USER_LED);
+        DMTimer_Delay(1);
+        Led_Off(DEBUG_LED);
+        DMTimer_Delay(1);
     }
 }
+

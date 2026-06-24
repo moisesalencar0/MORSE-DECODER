@@ -14,16 +14,19 @@
 /** @brief Maximum value of 32 bit. */
 #define TIMER_OVERFLOW 0xFFFFFFFF
 
-/** @brief Timer ticks per microsecond at 24MHz. */
-#define TIMER_1US_COUNT 24
+#define SETTING  ((1<<18) | 2)
 
 /**
  * @brief Configures DMTimer7 for delay generation.
  *
+ * Activates clock.
  * Enables posted mode, stops the timer and resets
  * counter and load registers to a clean state.
  */
-void TIMER_SETUP(void) {
+void DMTimer_Init(void) {
+    HWREG(SOC_CM_PER_REGS + CM_PER_TIMER7_CLKCTRL) |= SETTING;
+    while((HWREG(SOC_CM_PER_REGS + CM_PER_TIMER7_CLKCTRL) & SETTING) == 0){};
+
     HWREG(SOC_DMTIMER_7_REGS + DMTIMER_TSICR) |= DMTIMER_TSICR_POSTED;
     HWREG(SOC_DMTIMER_7_REGS + DMTIMER_TCLR)  &= ~DMTIMER_TCLR_ST;
 
@@ -31,13 +34,8 @@ void TIMER_SETUP(void) {
     HWREG(SOC_DMTIMER_7_REGS + DMTIMER_TLDR)   = 0x00000000;
 }
 
-/* ============================================================================
- * DELAY RELATED FUNCTIONS
- * ========================================================================= */
 
-static uint32_t DMTimerWritePostedStatusGet(uint32_t baseAdd)
-{
-    /* Return the status of TWPS register */
+static uint32_t DMTimer_WritePostedStatusGet(uint32_t baseAdd){
     return HWREG(baseAdd + DMTIMER_TWPS);
 }
 
@@ -50,10 +48,10 @@ static uint32_t DMTimerWritePostedStatusGet(uint32_t baseAdd)
  * @param reg    Write-post bit to check (e.g. @c DMTIMER_WRITE_POST_TCRR).
  * @param baseAdd Timer base address.
  */
-#define DMTimerWaitForWrite(reg, baseAdd)                           \
+#define DMTimer_WaitForWrite(reg, baseAdd)                           \
     do {                                                            \
         if (HWREG(baseAdd + DMTIMER_TSICR) & DMTIMER_TSICR_POSTED) \
-            while ((reg & DMTimerWritePostedStatusGet(baseAdd)));   \
+            while ((reg & DMTimer_WritePostedStatusGet(baseAdd)));   \
     } while (0)
 
 /**
@@ -62,8 +60,8 @@ static uint32_t DMTimerWritePostedStatusGet(uint32_t baseAdd)
  * @param baseAdd Timer base address.
  * @param counter Value to load into @c DMTIMER_TCRR.
  */
-void DMTimerCounterSet(uint32_t baseAdd, uint32_t counter) {
-    DMTimerWaitForWrite(DMTIMER_WRITE_POST_TCRR, baseAdd);
+void DMTimer_CounterSet(uint32_t baseAdd, uint32_t counter) {
+    DMTimer_WaitForWrite(DMTIMER_WRITE_POST_TCRR, baseAdd);
     HWREG(baseAdd + DMTIMER_TCRR) = counter;
 }
 
@@ -73,8 +71,8 @@ void DMTimerCounterSet(uint32_t baseAdd, uint32_t counter) {
  * @param baseAdd Timer base address.
  * @return Current value of @c DMTIMER_TCRR.
  */
-uint32_t DMTimerCounterGet(uint32_t baseAdd) {
-    DMTimerWaitForWrite(DMTIMER_WRITE_POST_TCRR, baseAdd);
+uint32_t DMTimer_CounterGet(uint32_t baseAdd) {
+    DMTimer_WaitForWrite(DMTIMER_WRITE_POST_TCRR, baseAdd);
     return HWREG(baseAdd + DMTIMER_TCRR);
 }
 
@@ -83,8 +81,8 @@ uint32_t DMTimerCounterGet(uint32_t baseAdd) {
  *
  * @param baseAdd Timer base address.
  */
-void DMTimerEnable(uint32_t baseAdd) {
-    DMTimerWaitForWrite(DMTIMER_WRITE_POST_TCLR, baseAdd);
+void DMTimer_Enable(uint32_t baseAdd) {
+    DMTimer_WaitForWrite(DMTIMER_WRITE_POST_TCLR, baseAdd);
     HWREG(baseAdd + DMTIMER_TCLR) |= DMTIMER_TCLR_ST;
 }
 
@@ -93,23 +91,23 @@ void DMTimerEnable(uint32_t baseAdd) {
  *
  * @param baseAdd Timer base address.
  */
-void DMTimerDisable(uint32_t baseAdd) {
-    DMTimerWaitForWrite(DMTIMER_WRITE_POST_TCLR, baseAdd);
+void DMTimer_Disable(uint32_t baseAdd) {
+    DMTimer_WaitForWrite(DMTIMER_WRITE_POST_TCLR, baseAdd);
     HWREG(baseAdd + DMTIMER_TCLR) &= ~DMTIMER_TCLR_ST;
 }
 
 /** @brief Global flag set by DMTimer7 ISR on overflow. */
-volatile uint32_t flag_timer = false;
+volatile uint32_t timer_overflow = false;
 
 /**
  * @brief DMTimer7 overflow interrupt service routine.
  *
  * Clears the overflow flag in hardware and signals
- * the delay function through @c flag_timer.
+ * the delay function through @c timer_overflow].
  */
-void DMTimerIsr(void) {
-    HWREG(SOC_DMTIMER_7_REGS + DMTIMER_IRQSTATUS) |= 0x2;
-    flag_timer = true;
+void DMTimer_ISR(void) {
+    HWREG(SOC_DMTIMER_7_REGS + DMTIMER_IRQSTATUS) = 0x2;
+    timer_overflow = true;
 }
 
 /**
@@ -117,30 +115,28 @@ void DMTimerIsr(void) {
  *
  * Loads the counter with a precomputed overflow value,
  * enables the overflow interrupt and busy-waits until
- * the ISR signals completion through @c flag_timer.
+ * the ISR signals completion through @c timer_overflow].
  *
  * @param us Delay duration in seconds.
  */
-void delay(uint32_t us) {
-    uint32_t countVal = TIMER_OVERFLOW - (us * 1000000 * TIMER_1US_COUNT );
+void DMTimer_Delay(uint32_t us) {
+    uint32_t countVal = TIMER_OVERFLOW - (us * 24000000); // 24Mhz
 
-    DMTimerWaitForWrite(DMTIMER_WRITE_POST_TCRR, SOC_DMTIMER_7_REGS);
+    DMTimer_WaitForWrite(DMTIMER_WRITE_POST_TCRR, SOC_DMTIMER_7_REGS);
     HWREG(SOC_DMTIMER_7_REGS + DMTIMER_TCRR) = countVal;
 
-    flag_timer = false;
+    timer_overflow = false;
 
     HWREG(SOC_DMTIMER_7_REGS + DMTIMER_IRQENABLE_SET) |= 0x2;
-    DMTimerEnable(SOC_DMTIMER_7_REGS);
+    DMTimer_Enable(SOC_DMTIMER_7_REGS);
 
-    while (flag_timer == false) {}
+    while (timer_overflow == false) {}
 
     HWREG(SOC_DMTIMER_7_REGS + DMTIMER_IRQENABLE_CLR) |= 0x2;
-    DMTimerDisable(SOC_DMTIMER_7_REGS);
+    DMTimer_Disable(SOC_DMTIMER_7_REGS);
 }
 
 /** @brief Unmasks DMTimer7 interrupt line (95) in the INTC. */
-void timerIntConfig(void) {
+void DMTimer_IntConfig(void) {
     HWREG(SOC_AINTC_REGS + INTC_MIR_CLEAR2) |= (1 << 31);
 }
-
-

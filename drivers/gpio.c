@@ -27,13 +27,8 @@ void GPIO_Init(void){
 }
 
 
-/**
- * @brief Global flag for button event.
- *
- * Set to @c true by the ISR when the button is pressed.
- * Read and reset by @c main().
- */
-vuint32_t flag_gpio = false;
+/** @brief Global flag for button event. */
+vuint32_t button_pressed = false;
 
 
 /** BREAK: decidir quais pinos gpio usar pra botões
@@ -62,5 +57,5 @@ vuint32_t flag_gpio = false;
  */
  void GPIO_ISR(void) {
     HWREG(GPIO2_IRQSTATUS_0) = (1 << 13);
-    flag_gpio = true;
+    button_pressed = true;
 }

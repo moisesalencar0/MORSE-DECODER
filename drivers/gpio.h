@@ -32,7 +32,7 @@
 
 void GPIO_Init(void);
 
-extern vuint32_t flag_gpio;
+extern vuint32_t button_pressed;
 
 void GPIO_Interrupt_Config(void);
 

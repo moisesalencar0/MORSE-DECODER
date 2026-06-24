@@ -1,5 +1,5 @@
 /**
- * @file watchdog.h
+ * @file watchdog.c
  * @brief Watchdog driver implementations
  */
 

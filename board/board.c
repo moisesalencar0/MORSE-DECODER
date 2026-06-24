@@ -4,9 +4,13 @@
  */
 
 #include "board.h"
-#include "soc_AM335x.h"
+
 #include "hw_types.h"
+#include "soc_AM335x.h"
+
 #include "gpio.h"
+#include "timer.h"
+#include "intc.h"
 
 /**
  * @brief Configures pin multiplexing and GPIO directions used by the application.
@@ -40,5 +44,7 @@ void BBB_Pinmux(void){
 void Board_Init(void) {
     BBB_Pinmux();
     GPIO_Init();
+    INTC_Init();
+    DMTimer_Init();
+    DMTimer_IntConfig();
 }
-

@@ -1,5 +1,5 @@
 /**
- * @file uart_io.h
+ * @file uart_io.c
  * @brief UART driver implementations. (TRM 19) 
  */
 

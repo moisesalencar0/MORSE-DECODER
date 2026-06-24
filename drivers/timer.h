@@ -8,11 +8,12 @@
 
 #include "hw_types.h"
 
-void timer_setup(void);
-void delay(uint32_t us); // in seconds
+void DMTimer_Delay(uint32_t us); // in seconds
 
-extern vuint32_t flag_timer;
-void timerIntConfig(void);
-void DMTimerIsr(void);
+void DMTimer_Init(void);
+void DMTimer_IntConfig(void);
+void DMTimer_ISR(void);
+
+extern vuint32_t timer_overflow;
 
 #endif /* TIMERS_H_ */
