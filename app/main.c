@@ -6,6 +6,7 @@
  */
 
 #include "board.h"
+#include "gpio.h"
 
 /**
  * @brief Application entry point.
@@ -17,6 +18,7 @@ void _main(void){
     Board_Init();
 
     while(1){
-
+        Led_On(DEBUG_LED);
+        Led_On(USER_LED);
     }
 }

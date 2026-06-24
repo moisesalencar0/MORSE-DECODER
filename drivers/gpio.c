@@ -12,6 +12,12 @@
 
 #define SETTING  ((1<<18) | 2)
 
+/**
+ * @brief Activates GPIO1 and GPIO2 module clocks.
+ *
+ * Enables the clock signals required by the GPIO1 and GPIO2 peripherals
+ * and blocks execution until both modules report that the clocks are enabled.
+ */
 void GPIO_Init(void){
         HWREG(SOC_CM_PER_REGS + CM_PER_GPIO1_CLKCTRL) |= SETTING;
         while((HWREG(SOC_CM_PER_REGS + CM_PER_GPIO1_CLKCTRL) & SETTING) == 0){};

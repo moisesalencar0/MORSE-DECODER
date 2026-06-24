@@ -14,10 +14,10 @@
  * BOARD PIN MASKS
  * ========================================================================= */
 
-#define BUTTON_DOWN                (1 << 6)
-#define BUTTON_UP                  (1 << 7)
-#define DEBUG_LED                  (1 << 21)
-#define USER_LED                   (1 << 28)
+#define BUTTON_DOWN                  (1 << 6)
+#define BUTTON_UP                    (1 << 7)
+#define DEBUG_LED                    (1 << 21) // first internal led
+#define USER_LED                     (1 << 28) // red led
 
 /* ============================================================================
  * GPIO API
