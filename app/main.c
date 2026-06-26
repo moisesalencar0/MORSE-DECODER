@@ -10,7 +10,7 @@
 #include "timer.h"
 #include "watchdog.h"
 #include "i2c.h"
-
+#include "uart_io.h"
 /**
  * @brief Application entry point.
  *
@@ -21,12 +21,33 @@ void _main(void){
     Board_Init();
     
     while(1){
-        if(button_pressed){
-            button_pressed = false;
-            Buzzer_On;
-            DMTimer_Delay(2);
-        }
-        else Buzzer_Off;
-    }
-}
+        if (button_up_pressed || button_down_pressed) {
+        
+            DMTimer_Delay(50); // ~50ms, aguarda o segundo botão
+            
+            if (button_up_pressed && button_down_pressed) {
+                button_up_pressed   = false;
+                button_down_pressed = false;
 
+                printString("both\n", 5);
+
+            } else if (button_up_pressed) {
+                button_up_pressed = false;
+
+                printString("up\n", 3);
+
+            } else {
+                button_down_pressed = false;
+
+                printString("down\n", 5);
+
+            }
+        }
+    }
+
+    while (Pin_Read(BUTTON_UP) || Pin_Read(BUTTON_DOWN)){
+        DMTimer_Delay(100);
+    }
+    button_up_pressed   = false;
+    button_down_pressed = false;
+}

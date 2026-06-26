@@ -120,7 +120,7 @@ void DMTimer_ISR(void) {
  * @param us Delay duration in seconds.
  */
 void DMTimer_Delay(uint32_t us) {
-    uint32_t countVal = TIMER_OVERFLOW - (us * 24000000); // 24Mhz
+    uint32_t countVal = TIMER_OVERFLOW - (us * 24000); // 24Mhz
 
     DMTimer_WaitForWrite(DMTIMER_WRITE_POST_TCRR, SOC_DMTIMER_7_REGS);
     HWREG(SOC_DMTIMER_7_REGS + DMTIMER_TCRR) = countVal;
