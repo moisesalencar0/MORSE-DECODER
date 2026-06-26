@@ -12,7 +12,6 @@
 #include "gpio.h"
 #include "timer.h"
 #include "intc.h"
-#include "i2c.h"
 
 /**
  * @brief Configures pin multiplexing and GPIO directions used by the application.
@@ -54,5 +53,4 @@ void Board_Init(void) {
     DMTimer_IntConfig();
     GPIO_Init();
     GPIO_IntConfig();
-    I2C_Init();
 }

@@ -28,7 +28,6 @@ SRCS = \
 	drivers/uart_io.c \
 	drivers/gpio.c \
 	drivers/intc.c \
-	drivers/i2c.c \
 	board/board.c
 
 OBJS = $(addprefix obj/, $(notdir $(SRCS:.c=.o)))

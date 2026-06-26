@@ -9,13 +9,12 @@
 #include "gpio.h"
 #include "timer.h"
 #include "watchdog.h"
-#include "i2c.h"
 #include "uart_io.h"
 /**
  * @brief Application entry point.
  *
  * Initializes the board and runs the main loop:
- * [..;]
+ * [...]
  */
 void _main(void){
     Board_Init();
@@ -40,7 +39,6 @@ void _main(void){
                 button_down_pressed = false;
 
                 printString("down\r\n", 6);
-
             }
         }
     }
