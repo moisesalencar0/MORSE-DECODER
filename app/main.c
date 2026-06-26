@@ -22,24 +22,24 @@ void _main(void){
     
     while(1){
         if (button_up_pressed || button_down_pressed) {
-        
-            DMTimer_Delay(50); // ~50ms, aguarda o segundo botão
+
+            DMTimer_Delay(50);
             
             if (button_up_pressed && button_down_pressed) {
                 button_up_pressed   = false;
                 button_down_pressed = false;
 
-                printString("both\n", 5);
+                printString("both\r\n", 6);
 
             } else if (button_up_pressed) {
                 button_up_pressed = false;
 
-                printString("up\n", 3);
+                printString("up\r\n", 4);
 
             } else {
                 button_down_pressed = false;
 
-                printString("down\n", 5);
+                printString("down\r\n", 6);
 
             }
         }
