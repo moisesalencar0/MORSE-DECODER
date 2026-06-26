@@ -36,7 +36,8 @@
 
 void GPIO_Init(void);
 
-extern vuint32_t button_pressed;
+extern vuint32_t button_down_pressed;
+extern vuint32_t button_up_pressed;
 
 void GPIO_IntConfig(void);
 
