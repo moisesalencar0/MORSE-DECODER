@@ -1,7 +1,7 @@
 /**
  * @file   main.c
  * @brief  [...]
- * @author Moises Alencar (UFC) @moisesalencar0 / [...]
+ * @author Moises Alencar (UFC) @moisesalencar0 / Rafael de Castro (UFC) @rafaelccastro007
  * @date   2026-06-22
  */
 
@@ -9,6 +9,7 @@
 #include "gpio.h"
 #include "timer.h"
 #include "watchdog.h"
+#include "i2c.h"
 
 /**
  * @brief Application entry point.

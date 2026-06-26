@@ -1,6 +1,5 @@
 #ifndef _I2C_MODULE_
 #define _I2C_MODULE_
-#include <stdint.h>
 
 /*offset de clock do i2c1*/
 #define CM_PER_I2C1_CLKCTRL 0x48
