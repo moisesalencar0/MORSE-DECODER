@@ -58,25 +58,9 @@ void _main(void){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*
+
+
 #include "morse.h"
 #include "watchdog.h"
 #include "gpio.h"
@@ -96,11 +80,7 @@ int _main(void) {
     GPIO_IntConfig();
     DMTimer_IntConfig();
 
-    // falta habilitar IRQ na CPU (bit no CPSR) -- mesma função/asm que você
-    // já usa no lab do LED, não está nos arquivos que você me mandou
-
-   
-
+    
     while (1){
          run_morse_to_text();
     } // trava aqui de propósito, só pra esse teste único
