@@ -28,6 +28,7 @@ SRCS = \
 	drivers/uart_io.c \
 	drivers/gpio.c \
 	drivers/intc.c \
+	drivers/morse.c\
 	board/board.c
 
 OBJS = $(addprefix obj/, $(notdir $(SRCS:.c=.o)))
@@ -65,7 +66,7 @@ $(TARGET).bin: $(TARGET).elf
 
 
 deploy: release
-	sudo cp $(TARGET).bin /srv/tftp/temp_monitor.bin
+	sudo cp $(TARGET).bin /home/rafael-castro/Documentos/SEMESTRE3/tpse1/lab/tftp
 
 clean:
 	rm -f obj/*.o

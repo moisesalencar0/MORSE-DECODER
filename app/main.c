@@ -49,3 +49,63 @@ void _main(void){
     button_up_pressed   = false;
     button_down_pressed = false;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+#include "morse.h"
+#include "watchdog.h"
+#include "gpio.h"
+#include "timer.h"
+#include "intc.h"
+#include "uart_io.h"
+
+
+int _main(void) {
+    Watchdog_Disable();
+
+    GPIO_Init();
+    DMTimer_Init();
+    INTC_Init();
+
+    GPIO_Pin_Input_Enable(BUTTON_DOWN | BUTTON_UP);
+    GPIO_IntConfig();
+    DMTimer_IntConfig();
+
+    // falta habilitar IRQ na CPU (bit no CPSR) -- mesma função/asm que você
+    // já usa no lab do LED, não está nos arquivos que você me mandou
+
+   
+
+    while (1){
+         run_morse_to_text();
+    } // trava aqui de propósito, só pra esse teste único
+}
+
+
+
+*/

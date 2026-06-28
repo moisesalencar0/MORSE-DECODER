@@ -24,6 +24,10 @@
  * @param c Character to be transmitted.
  */
 void printChar(uint8_t c) {
+    if(c == '\n'){
+        while(!(HWREG(UART0_LSR) & (1<<5)));
+        HWREG(UART0_THR) = '\r';
+    }
     while(!(HWREG(UART0_LSR) & (1<<5)));
     HWREG(UART0_THR) = c;
 }
