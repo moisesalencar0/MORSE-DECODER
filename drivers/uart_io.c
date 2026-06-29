@@ -56,3 +56,29 @@ uint32_t printString(char *str, uint32_t length) {
     }
     return(length);
 }
+
+/**
+ * @brief Receives a string from UART0 until Enter is pressed.
+ *
+ * Reads characters one by one, echoing each back to the terminal,
+ * until '\r' or '\n' is received or the buffer is full.
+ *
+ * @param buf    Buffer to store the received string.
+ *
+ * @return Number of characters received (excluding '\0').
+ */
+uint32_t scanString(char *buf) {
+    uint32_t i = 0;
+    
+    for (uint32_t i = 0; i < 101; i++){
+        char c = scanChar();
+    
+        if (c == '\r' || c == '\n') break;
+    
+        buf[i] = c;
+        printChar(c);
+    }
+
+    buf[i] = '\0';
+    return i;
+}

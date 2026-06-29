@@ -28,4 +28,11 @@ void printChar(uint8_t c);
  */
 uint32_t printString(char *str, uint32_t len);
 
+/**
+ * @brief Receives a string from UART0 until Enter is pressed.
+ * @param buf    Buffer to store the received string.
+ * @return Number of characters received (excluding '\0').
+ */
+uint32_t scanString(char *buf);
+
 #endif /* UART_IO_H_ */

@@ -10,12 +10,14 @@
 #include "timer.h"
 #include "watchdog.h"
 #include "uart_io.h"
+
 /**
  * @brief Application entry point.
  *
  * Initializes the board and runs the main loop:
  * [...]
  */
+/*
 void _main(void){
     Board_Init();
     
@@ -49,43 +51,18 @@ void _main(void){
     button_up_pressed   = false;
     button_down_pressed = false;
 }
+*/
 
-
-
-
-
-
-
-
-
-/*
-
+// teste ttm
 
 #include "morse.h"
-#include "watchdog.h"
-#include "gpio.h"
-#include "timer.h"
-#include "intc.h"
-#include "uart_io.h"
-
 
 int _main(void) {
-    Watchdog_Disable();
-
-    GPIO_Init();
-    DMTimer_Init();
-    INTC_Init();
-
-    GPIO_Pin_Input_Enable(BUTTON_DOWN | BUTTON_UP);
-    GPIO_IntConfig();
-    DMTimer_IntConfig();
-
+    Board_Init();
     
     while (1){
-         run_morse_to_text();
-    } // trava aqui de propósito, só pra esse teste único
+        //run_morse_to_text();
+        Text_To_Morse();
 }
 
-
-
-*/
+}
