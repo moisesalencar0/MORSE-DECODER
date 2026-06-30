@@ -13,7 +13,7 @@ char decode_letter(const char *symbols, uint32_t len);
 void run_morse_to_text(void);
 
 /*recebe string na uart e converte em transmissão de código morse*/
-void Text_To_Morse(void);
+void text_to_morse(void);
 
 
 

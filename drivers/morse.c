@@ -54,7 +54,6 @@ char decode_letter(const char *symbols, uint32_t len){
 }
 
 void run_morse_to_text(void){
-
     char symbol_buf[8] = {0}; // pontos/traços da letra sendo digitada agora
     uint32_t symbol_len = 0;   // quantos símbolos já estão em symbol_buf
 
@@ -67,10 +66,13 @@ void run_morse_to_text(void){
     char pending_symbol = 0;  // último clique solo, aguardando confirmar se é combo
     uint32_t pending_ms = 0;  // tempo que pending_symbol está esperando
 
-    printString("\n--- MODO: MORSE -> TEXTO ---\n", 30);
-    printString("Digite os codigos. Combo (os 2 botoes juntos) fecha a letra atual.\n", 67);
-    printString("Combo SEM letra pendente = espaco. Combo vazio 2x seguido = ENTER.\n\n", 68);
-
+    printString("\r\n", 2);
+    printString("╔══════════════════════════════════════╗\r\n", 122);
+    printString("║       MODO: MORSE  ->  TEXTO         ║\r\n", 46);
+    printString("╠══════════════════════════════════════╣\r\n", 122);
+    printString("║ combo: 1x: letra, 2x: [ ], 3x: enter ║\r\n", 46);
+    printString("╚══════════════════════════════════════╝\r\n", 122);
+    printString("> ", 2);
     while(1){
         // combo "no mesmo tick": os dois botões já chegaram juntos
         uint32_t is_combo = (button_down_pressed && button_up_pressed) ||
@@ -113,11 +115,10 @@ void run_morse_to_text(void){
                         message_len--; // remove espaços sobrando no final
                     }
                     message_buf[message_len] = '\0';
-                    tela_limpar();
-                    printString("\n\n[Transmissao Encerrada via Combo Vazio 2x]", 44);
-                    printString("\nFrase Completa Decodificada: ", 30);
+                    //tela_limpar();
+                    printString("\r\nDecodificado: ", 15);
                     printString(message_buf, message_len);
-                    printString("\n---------------------------------------\n", 41);
+                    printString("\r\n", 2);
 
                     return; // sai da função, volta pro menu
                 }
@@ -158,7 +159,7 @@ void run_morse_to_text(void){
 
 /* dont touch above */
 
-void Transmit_Morse(char c){
+void transmit_morse(char c){
     char target_char = (c >= 'a' && c <= 'z') ? c - 32 : c;
 
     for(uint32_t i = 0; i < MORSE_TABLE_SIZE; i++){
@@ -186,7 +187,7 @@ void Transmit_Morse(char c){
     }
 }
 
-void Text_To_Morse(void){
+void text_to_morse(void){
     printString("\r\n", 2);
     printString("╔══════════════════════════════════════╗\r\n", 122);
     printString("║       MODO: TEXTO  ->  MORSE         ║\r\n", 46);
@@ -208,12 +209,11 @@ void Text_To_Morse(void){
             i++;
             continue;
         }
-        Transmit_Morse(input_buffer[i]);
+        transmit_morse(input_buffer[i]);
         i++;
     }
 }
 
-
-void tela_limpar(void){
+/*void tela_limpar(void){
     printString("\033[2J\033[H\n\r",10);
-}
+}*/
