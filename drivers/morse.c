@@ -4,8 +4,8 @@
 #include "uart_io.h"
 #include "ctype.h"
 
-#define TICKS_MS         10   
-#define COMBO_GRACE_MS   40   
+#define TICKS_MS   10   
+#define COMBO_MS   40   
 
 /* @brief letra, equivalente em código morse 
  * junto com a tabela de conversão
@@ -145,7 +145,7 @@ void run_morse_to_text(void){
         pending_ms += TICKS_MS;
 
         // janela de tolerância acabou sem parceiro chegar: confirma como solo
-        if (pending_symbol != 0 && pending_ms >= COMBO_GRACE_MS) {
+        if (pending_symbol != 0 && pending_ms >= COMBO_MS) {
             if (symbol_len < 7) {
                 symbol_buf[symbol_len++] = pending_symbol;
                 printChar(pending_symbol);
