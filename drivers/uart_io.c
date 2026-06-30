@@ -70,13 +70,20 @@ uint32_t printString(char *str, uint32_t length) {
 uint32_t scanString(char *buf) {
     uint32_t i = 0;
 
-    for (i = 0; i < 100; i++){
+    while (i < 100) {
         char c = scanChar();
         if (c == '\r' || c == '\n') break;
-        buf[i] = c;
+
+        if ((c == '\x7f' || c == '\b') && i > 0) {
+            i--;
+            printString("\b \b", 3);
+            continue;
+        }
+
+        buf[i++] = c;
         printChar(c);
     }
-    
+
     buf[i] = '\0';
     return i;
 }
