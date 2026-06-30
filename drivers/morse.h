@@ -17,4 +17,6 @@ void Text_To_Morse(void);
 
 
 
+void tela_limpar(void);
+
 #endif

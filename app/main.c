@@ -60,9 +60,11 @@ void _main(void){
 int _main(void) {
     Board_Init();
     
-    Text_To_Morse();
+    //Text_To_Morse();
     while (1){
-        //run_morse_to_text();
-}
+        //Text_To_Morse();
+        //tela_limpar();  
+        run_morse_to_text();
+    }
 
 }

@@ -113,7 +113,7 @@ void run_morse_to_text(void){
                         message_len--; // remove espaços sobrando no final
                     }
                     message_buf[message_len] = '\0';
-
+                    tela_limpar();
                     printString("\n\n[Transmissao Encerrada via Combo Vazio 2x]", 44);
                     printString("\nFrase Completa Decodificada: ", 30);
                     printString(message_buf, message_len);
@@ -211,4 +211,9 @@ void Text_To_Morse(void){
         Transmit_Morse(input_buffer[i]);
         i++;
     }
+}
+
+
+void tela_limpar(void){
+    printString("\033[2J\033[H\n\r",10);
 }
