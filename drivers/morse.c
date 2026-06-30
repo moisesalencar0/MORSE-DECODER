@@ -188,13 +188,13 @@ void Transmit_Morse(char c){
 
 void Text_To_Morse(void){
     printString("\r\n", 2);
-    printString("╔══════════════════════════════════════╗\r\n", 42);
-    printString("║       MODO: TEXTO  ->  MORSE         ║\r\n", 42);
-    printString("╠══════════════════════════════════════╣\r\n", 42);
-    printString("║  Digite a frase e pressione Enter    ║\r\n", 42);
-    printString("║  [SWITCH] para trocar de modo        ║\r\n", 42);
-    printString("╚══════════════════════════════════════╝\r\n", 42);
-    printString("\r\n> ", 3);
+    printString("╔══════════════════════════════════════╗\r\n", 122);
+    printString("║       MODO: TEXTO  ->  MORSE         ║\r\n", 46);
+    printString("╠══════════════════════════════════════╣\r\n", 122);
+    printString("║  Digite a frase e pressione Enter    ║\r\n", 46);
+    printString("║  [SWITCH] para trocar de modo        ║\r\n", 46);
+    printString("╚══════════════════════════════════════╝\r\n", 122);
+    printString("\r\n> ", 4);
 
     char input_buffer[101];
     scanString(input_buffer);
