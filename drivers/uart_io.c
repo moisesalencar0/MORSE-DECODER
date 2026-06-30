@@ -69,16 +69,14 @@ uint32_t printString(char *str, uint32_t length) {
  */
 uint32_t scanString(char *buf) {
     uint32_t i = 0;
-    
-    for (uint32_t i = 0; i < 101; i++){
+
+    for (i = 0; i < 100; i++){
         char c = scanChar();
-    
         if (c == '\r' || c == '\n') break;
-    
         buf[i] = c;
         printChar(c);
     }
-
+    
     buf[i] = '\0';
     return i;
 }
