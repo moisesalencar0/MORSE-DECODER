@@ -62,7 +62,7 @@ int _main(void) {
     
     //Text_To_Morse();
     while (1){
-        //Text_To_Morse();
+        //text_to_morse();
         run_morse_to_text();
     }
 

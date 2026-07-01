@@ -37,6 +37,9 @@ void BBB_Pinmux(void){
 
     HWREG(SOC_CONTROL_REGS + CM_CONF_LCD_DATA1) |= mode_input;
     HWREG(GPIO2_OE) |= (BUTTON_UP);
+
+    HWREG(SOC_CONTROL_REGS + CM_CONF_LCD_VSYNC) |= mode_input;
+    HWREG(GPIO2_OE) |= (BUTTON_MODE);
 }
 
 /**

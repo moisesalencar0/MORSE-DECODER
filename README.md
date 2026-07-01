@@ -1,10 +1,10 @@
 # TPSE Final Project
 
-Sistema de monitoramento de temperatura utilizando BeagleBone Black.
+Sistema de uma tradotor de código morse utilizando BeagleBone Black.
 
 ## Objetivo
 
-Monitorar temperatura ambiente e gerar alertas quando a temperatura sair da faixa configurada.
+conseguir 
 
 ## Hardware
 

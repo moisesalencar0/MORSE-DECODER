@@ -18,6 +18,7 @@
 
 #define CM_CONF_LCD_DATA0                (0x8A0) // GPIO2_6
 #define CM_CONF_LCD_DATA1                (0x8A4) // GPIO2_7
+#define CM_CONF_LCD_VSYNC                (0x8E0) // GPIO2_22
 
 /* ============================================================================
  * CLOCK MANAGEMENT REGISTERS

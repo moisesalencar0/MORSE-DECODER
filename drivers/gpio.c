@@ -33,6 +33,7 @@ void GPIO_Init(void){
 /** @brief Global flag for button event. */
 vuint32_t button_down_pressed = false;
 vuint32_t button_up_pressed = false;
+vuint32_t mode = 0;
 
 
 /** BREAK: decidir quais pinos gpio usar pra botões
@@ -40,7 +41,7 @@ vuint32_t button_up_pressed = false;
  *
  * Enables debounce for pressing hardware'
  * Unmasks line 32 (GPIOINT2A) in the INTC_MIR_CLEAR1 register.
- * Enables the interrupt on pin 6/7 via GPIO2_IRQSTATUS_SET_0.
+ * Enables the interrupt on pin 6/7/22 via GPIO2_IRQSTATUS_SET_0.
  * Configures rising edge detection via GPIO2_RISINGDETECT.
  */
 void GPIO_IntConfig(void) {
@@ -55,13 +56,14 @@ void GPIO_IntConfig(void) {
    HWREG(GPIO2_IRQSTATUS_0) = BUTTON_DOWN | BUTTON_UP;
    button_down_pressed = false;
    button_up_pressed   = false;
+   button_up_pressed   = 0;
 }
 
 
 /** BREAK: fazer essa função ser reaproveitável
  * @brief GPIO1 interrupt service routine.
  *
- * Clears the interrupt flag for pin 6/7 in hardware and signals the event
+ * Clears the interrupt flag for pin 6/7/22 in hardware and signals the event
  * to @c main() through @c flag_gpio.
  */
 void GPIO_ISR(void) {
@@ -73,5 +75,8 @@ void GPIO_ISR(void) {
    }
    if(status & BUTTON_UP){
      button_up_pressed = true;
+   }
+   if(status & BUTTON_DOWN){
+     mode ^= 1;
    }
 }

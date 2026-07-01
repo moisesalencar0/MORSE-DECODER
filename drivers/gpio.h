@@ -16,6 +16,7 @@
 
 #define BUTTON_DOWN                  (1 << 6)
 #define BUTTON_UP                    (1 << 7)
+#define BUTTON_MODE                  (1 << 22)
 #define BUZZER                       (1 << 17)
 #define DEBUG_LED                    (1 << 21) // first internal led
 #define USER_LED                     (1 << 28) // red led
@@ -38,6 +39,7 @@ void GPIO_Init(void);
 
 extern vuint32_t button_down_pressed;
 extern vuint32_t button_up_pressed;
+extern vuint32_t mode;
 
 void GPIO_IntConfig(void);
 
