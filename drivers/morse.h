@@ -4,19 +4,13 @@
 
 typedef struct MorseCode MorseCode;
 
-
-
-/*função responsável por transformar os pontos e traços em uma letra*/
+/** @brief Decodes a dot/dash buffer into its corresponding character. */
 char decode_letter(const char *symbols, uint32_t len);
 
-/*traduz o conteudo dos botões para texto e o tratamento de enter*/
+/** @brief Reads Morse button input and decodes it into text. */
 void morse_to_text(void);
 
-/*recebe string na uart e converte em transmissão de código morse*/
+/** @brief Reads a UART string and transmits it as Morse code. */
 void text_to_morse(void);
-
-
-
-//void tela_limpar(void);
 
 #endif

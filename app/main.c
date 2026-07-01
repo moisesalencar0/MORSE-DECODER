@@ -1,6 +1,6 @@
 /**
  * @file   main.c
- * @brief  [...]
+ * @brief  Logical abstraction for managing key driver functions.
  * @author Moises Alencar (UFC) @moisesalencar0 / Rafael de Castro (UFC) @rafaelccastro007
  * @date   2026-06-22
  */
