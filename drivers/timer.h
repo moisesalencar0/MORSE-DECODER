@@ -16,4 +16,4 @@ void DMTimer_ISR(void);
 
 extern vuint32_t timer_overflow;
 
-#endif /* TIMERS_H_ */
+#endif /* TIMER_H_ */

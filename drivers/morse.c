@@ -1,10 +1,13 @@
 /**
- * @file  morse.c
- * @brief Include the implementation the 2 modes of morse-text translation
- *         Called in main
+ * @file morse.c
+ * @brief Morse code translation implementation.
+ *
+ * Implements the text-to-Morse and Morse-to-text translation modes,
+ * including character encoding, decoding, and user interaction.
  */
 
 #include "morse.h"
+
 #include "gpio.h"
 #include "timer.h"
 #include "uart_io.h"
@@ -16,8 +19,7 @@
 /**
  * @brief Letter-to-Morse mapping entry.
  */
-struct MorseCode
-{
+struct MorseCode {
     char letter;
     const char *code;
 };
@@ -35,8 +37,11 @@ static const MorseCode morse_table[] = {
     {'8', "---.."}, {'9', "----."}
 };
 
-/** @brief Number of entries in morse_table. */
 #define MORSE_TABLE_SIZE (sizeof(morse_table) / sizeof(morse_table[0]))
+
+/* ============================================================================
+ * MORSE -> TEXT RELATED FUNCTIONS
+ * ========================================================================= */
 
 /**
  * @brief Decodes a dot/dash buffer into its corresponding character.
@@ -59,13 +64,6 @@ char decode_letter(const char *symbols, uint32_t len){
     return '?';
 }
 
-/**
- * @brief Reads Morse button input and decodes it into text.
- *
- * Combo rules: 1 combo closes the current letter; 2 consecutive empty
- * combos insert a word space; 3 trigger end-of-transmission and print
- * the decoded message.
- */
 void morse_to_text(void){
     char symbol_buf[8] = {0};
     uint32_t symbol_len = 0;
@@ -96,21 +94,21 @@ void morse_to_text(void){
             is_combo = (button_down_pressed && button_up_pressed);
         }
 
-        if(is_combo){
+        if(is_combo) {
             button_down_pressed = false;
             button_up_pressed = false;
             pending_symbol = 0;
 
-            if(symbol_len > 0){
+            if(symbol_len > 0) {
                 char letter = decode_letter(symbol_buf, symbol_len);
-                if(letter != '?'){
+                if(letter != '?')
                     message_buf[message_len++] = letter;
-                }
                 symbol_len = 0;
                 combo_counter = 0;
                 printChar(' ');
             }
-            else{
+            
+            else {
                 combo_counter++;
                 if(combo_counter == 1){
                     if(message_len > 0 && message_buf[message_len - 1] != ' '){
@@ -118,7 +116,7 @@ void morse_to_text(void){
                         printChar('/');
                     }
                 }
-                else{
+                else {
                     while(message_len > 0 && message_buf[message_len - 1] == ' '){
                         message_len--;
                     }
@@ -160,6 +158,10 @@ void morse_to_text(void){
     }
 }
 
+/* ============================================================================
+ * TEXT -> MORSE RELATED FUNCTIONS
+ * ========================================================================= */
+
 /**
  * @brief Transmits a character as Morse code via LED and buzzer.
  *
@@ -199,12 +201,7 @@ void transmit_morse(char c, uint32_t entry_mode){
     }
 }
 
-/**
- * @brief Reads a text line from UART and transmits it as Morse code.
- *
- * Accepts input until Enter or 100 characters. Supports backspace.
- * Spaces produce a 1200 ms gap. Aborts if mode changes.
- */
+
 void text_to_morse(void){
     printString("\r\n", 2);
     printString("╔══════════════════════════════════════╗\r\n", 122);
