@@ -1,6 +1,6 @@
 /**
- * @file  gpio.h
- * @brief GPIO (General Purpose Input/Output) driver implementations
+ * @file gpio.h
+ * @brief GPIO (General-Purpose Input/Output) driver interface.
  */
 
 #ifndef GPIO_H
@@ -34,15 +34,35 @@
 #define Pin_Read(pin)                (HWREG(GPIO2_DATAIN) & (pin))
 #define GPIO_Pin_Input_Enable(pin)    HWREG(GPIO2_OE) |= (pin)
 
-
+/**
+ * @brief Activates GPIO1 and GPIO2 module clocks.
+ *
+ * Enables the clock signals required by the GPIO1 and GPIO2 peripherals
+ * and blocks execution until both modules report that the clocks are enabled.
+ */
 void GPIO_Init(void);
 
+/** @brief Global flag for button event. */
 extern vuint32_t button_down_pressed;
 extern vuint32_t button_up_pressed;
 extern vuint32_t mode;
 
+/** 
+ * @brief Configures the button interrupt on GPIO2 pin 6.
+ *
+ * Enables debounce for pressing hardware'
+ * Unmasks line 32 (GPIOINT2A) in the INTC_MIR_CLEAR1 register.
+ * Enables the interrupt on pin 6/7/22 via GPIO2_IRQSTATUS_SET_0.
+ * Configures rising edge detection via GPIO2_RISINGDETECT.
+ */
 void GPIO_IntConfig(void);
 
+/** 
+ * @brief GPIO1 interrupt service routine.
+ *
+ * Clears the interrupt flag for pin 6/7/22 in hardware and signals the event
+ * to @c main() through @c flag_gpio.
+ */
 void GPIO_ISR(void);
 
 #endif /* GPIO_H */
