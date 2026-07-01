@@ -7,8 +7,8 @@
 #define TICKS_MS   10   
 #define COMBO_MS   40   
 
-/* @brief letra, equivalente em código morse 
- * junto com a tabela de conversão
+/**
+ * @brief Letter-to-Morse mapping entry.
  */
 struct MorseCode
 {
@@ -29,42 +29,48 @@ static const MorseCode morse_table[] = {
     {'8', "---.."}, {'9', "----."}
 };
 
-/* quantidade de entradas, calculada automaticamente pelo tamanho do array */ 
+/** @brief Number of entries in morse_table. */
 #define MORSE_TABLE_SIZE (sizeof(morse_table) / sizeof(morse_table[0]))
 
-// converte um buffer de pontos/traços na letra correspondente
+/**
+ * @brief Decodes a dot/dash buffer into its corresponding character.
+ * @param symbols Buffer containing the dot/dash sequence.
+ * @param len     Number of symbols in the buffer.
+ * @return Decoded character, or '?' if no match is found.
+ */
 char decode_letter(const char *symbols, uint32_t len){
     for(uint32_t i = 0; i < MORSE_TABLE_SIZE; i++){
         uint32_t j = 0;
-
-        // avança enquanto o código da tabela bate com o que foi digitado
         while (morse_table[i].code[j] != '\0' &&
                j < len &&
-               morse_table[i].code[j] ==
-               symbols[j]){
+               morse_table[i].code[j] == symbols[j]){
             j++;
         }
-        // só é match se os dois terminaram juntos (mesmo tamanho)
         if(morse_table[i].code[j] == '\0' && j == len){
             return morse_table[i].letter;
         }
     }
-    // nenhuma entrada bateu: código inválido
     return '?';
 }
 
+/**
+ * @brief Reads Morse button input and decodes it into text.
+ *
+ * Combo rules: 1 combo closes the current letter; 2 consecutive empty
+ * combos insert a word space; 3 trigger end-of-transmission and print
+ * the decoded message.
+ */
 void morse_to_text(void){
-    char symbol_buf[8] = {0}; // pontos/traços da letra sendo digitada agora
-    uint32_t symbol_len = 0;   // quantos símbolos já estão em symbol_buf
+    char symbol_buf[8] = {0};
+    uint32_t symbol_len = 0;
 
-    char message_buf[128]; // frase decodificada, montada letra por letra
+    char message_buf[128];
     message_buf[0] = '\0';
     uint32_t message_len = 0;
 
-    uint32_t combo_counter = 0; // combos VAZIOS seguidos (sem nenhum ponto/traço no meio)
-
-    char pending_symbol = 0;  // último clique solo, aguardando confirmar se é combo
-    uint32_t pending_ms = 0;  // tempo que pending_symbol está esperando
+    uint32_t combo_counter = 0;
+    char pending_symbol = 0;
+    uint32_t pending_ms = 0;
 
     printString("\r\n", 2);
     printString("╔══════════════════════════════════════╗\r\n", 122);
@@ -78,7 +84,6 @@ void morse_to_text(void){
     while(1){
         if (mode != entry_mode) return;
 
-        // combo "no mesmo tick": os dois botões já chegaram juntos
         uint32_t is_combo = 0;
         if (button_up_pressed || button_down_pressed) {
             DMTimer_Delay(100);
@@ -88,66 +93,56 @@ void morse_to_text(void){
         if(is_combo){
             button_down_pressed = false;
             button_up_pressed = false;
-            pending_symbol = 0; // descarta: nunca foi clique solo de verdade
+            pending_symbol = 0;
 
             if(symbol_len > 0){
-                // tem letra pendente: este combo so FECHA ela, sem espaço no texto
                 char letter = decode_letter(symbol_buf, symbol_len);
                 if(letter != '?'){
                     message_buf[message_len++] = letter;
                 }
                 symbol_len = 0;
-                combo_counter = 0; // combo "gastou a função" fechando letra, não conta pra separador
-                printChar(' '); // eco cru: espaço = separador de LETRA no morse escrito
+                combo_counter = 0;
+                printChar(' ');
             }
             else{
-                // sem letra pendente: combo vazio = usuario quer separador
                 combo_counter++;
-
                 if(combo_counter == 1){
-                    // primeiro combo vazio = espaço (fim de palavra) no texto decodificado
                     if(message_len > 0 && message_buf[message_len - 1] != ' '){
                         message_buf[message_len++] = ' ';
-                        printChar('/'); // eco cru: "/" = separador de PALAVRA no morse escrito
+                        printChar('/');
                     }
                 }
                 else{
-                    // segundo combo combo vazio seguido = fim de transmissão
                     while(message_len > 0 && message_buf[message_len - 1] == ' '){
-                        message_len--; // remove espaços sobrando no final
+                        message_len--;
                     }
                     message_buf[message_len] = '\0';
-                    //tela_limpar();
                     printString("\r\nDecodificado: ", 15);
                     printString(message_buf, message_len);
                     printString("\r\n", 2);
-
-                    return; // sai da função, volta pro menu
+                    return;
                 }
             }
         }
         else if (button_down_pressed || button_up_pressed) {
-            // clique solo: ainda não sabe se vai virar combo
             char c = button_down_pressed ? '.' : '-';
             button_down_pressed = false;
             button_up_pressed   = false;
 
             if (pending_symbol != 0) {
-                // ja tinha um pendente e não virou combo: confirma como símbolo real
                 if (symbol_len < 7) {
                     symbol_buf[symbol_len++] = pending_symbol;
                     printChar(pending_symbol);
                 }
-                combo_counter = 0; // quebrou a sequência de combos vazios
+                combo_counter = 0;
             }
-            pending_symbol = c; // o clique atual passa a ser o novo pendente
+            pending_symbol = c;
             pending_ms = 0;
         }
 
-        DMTimer_Delay(TICKS_MS); // heartbeat de 10 ms
+        DMTimer_Delay(TICKS_MS);
         pending_ms += TICKS_MS;
 
-        // janela de tolerância acabou sem parceiro chegar: confirma como solo
         if (pending_symbol != 0 && pending_ms >= COMBO_MS) {
             if (symbol_len < 7) {
                 symbol_buf[symbol_len++] = pending_symbol;
@@ -159,8 +154,15 @@ void morse_to_text(void){
     }
 }
 
-/* dont touch above */
-
+/**
+ * @brief Transmits a character as Morse code via LED and buzzer.
+ *
+ * Dot = 150 ms, dash = 600 ms, 200 ms gap between symbols.
+ * Aborts early if mode changes. Lowercase is auto-converted to uppercase.
+ *
+ * @param c          Character to transmit.
+ * @param entry_mode Mode value at call time; used to detect mode changes.
+ */
 void transmit_morse(char c, uint32_t entry_mode){
     char target_char = (c >= 'a' && c <= 'z') ? c - 32 : c;
 
@@ -169,7 +171,7 @@ void transmit_morse(char c, uint32_t entry_mode){
             const char *code = morse_table[i].code;
     
             for(uint32_t j = 0; code[j] != '\0'; j++){
-                if (mode != entry_mode) return;  // checa entre cada símbolo
+                if (mode != entry_mode) return;
 
                 if (code[j] == '.') {
                     Led_On(USER_LED);
@@ -191,6 +193,12 @@ void transmit_morse(char c, uint32_t entry_mode){
     }
 }
 
+/**
+ * @brief Reads a text line from UART and transmits it as Morse code.
+ *
+ * Accepts input until Enter or 100 characters. Supports backspace.
+ * Spaces produce a 1200 ms gap. Aborts if mode changes.
+ */
 void text_to_morse(void){
     printString("\r\n", 2);
     printString("╔══════════════════════════════════════╗\r\n", 122);
@@ -221,7 +229,7 @@ void text_to_morse(void){
 
     int32_t i = 0;
     while(input_buffer[i] != '\0'){
-        if (mode != entry_mode) return;  // add isso
+        if (mode != entry_mode) return;
 
         if(input_buffer[i] == ' '){
             DMTimer_Delay(1200);
@@ -229,10 +237,6 @@ void text_to_morse(void){
             continue;
         }
         transmit_morse(input_buffer[i], entry_mode);
-    i++;
+        i++;
     }
 }
-
-/*void tela_limpar(void){
-    printString("\033[2J\033[H\n\r",10);
-}*/
