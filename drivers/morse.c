@@ -75,7 +75,7 @@ void morse_to_text(void){
     uint32_t combo_counter = 0;
     char pending_symbol = 0;
     uint32_t pending_ms = 0;
-
+    
     printString("\r\n", 2);
     printString("╔══════════════════════════════════════╗\r\n", 122);
     printString("║       MODO: MORSE  ->  TEXTO         ║\r\n", 46);
@@ -203,6 +203,7 @@ void transmit_morse(char c, uint32_t entry_mode){
 
 
 void text_to_morse(void){
+
     printString("\r\n", 2);
     printString("╔══════════════════════════════════════╗\r\n", 122);
     printString("║       MODO: TEXTO  ->  MORSE         ║\r\n", 46);

@@ -1,101 +1,134 @@
-Tradutor de Código Morse para Texto e Texto para Código Morse
-Sobre o projeto
-O que este projeto implementa?
+```md
+# Morse Code to Text and Text to Morse Code Translator
 
-Este projeto implementa um tradutor bidirecional entre código Morse e texto utilizando a BeagleBone Black.
+## About the Project
 
-Objetivo
+### What does this project implement?
 
-O objetivo da atividade foi aplicar, de forma prática, os conceitos fundamentais de programação para microcontroladores abordados durante a disciplina, desenvolvendo um sistema embarcado completo envolvendo drivers, interrupções, temporizadores e periféricos da placa.
+This project implements a bidirectional translator between Morse code and plain text using the BeagleBone Black.
 
-Disciplina
+### Objective
 
-Técnicas de Programação para Sistemas Embarcados
+The objective of this project was to apply, in practice, the fundamental concepts of microcontroller programming covered throughout the course by developing a complete embedded system involving drivers, interrupts, timers, and onboard peripherals.
 
-Funcionalidades
+### Course
 
-O sistema possui dois modos de operação.
+**Programming Techniques for Embedded Systems**
 
-Modo 1 — Código Morse → Texto
+---
 
-A interface é realizada pela UART (via Minicom), onde é exibido um menu de seleção.
+## Features
 
-A entrada do código Morse é feita utilizando dois botões da BeagleBone Black:
+The system provides two operating modes.
 
-Botão Down → ponto (.)
-Botão Up → traço (-)
+### Mode 1 — Morse Code → Text
 
-Os dois botões pressionados simultaneamente (combo) possuem funções especiais:
+The interface is available through UART (via Minicom), where a selection menu is displayed.
 
-1 pressão: confirma a letra atual;
-2 pressões consecutivas: adiciona um espaço entre palavras (/);
-3 pressões consecutivas: finaliza a mensagem e inicia a decodificação.
+Morse code is entered using two buttons on the BeagleBone Black:
 
-O sistema ignora sequências que não pertencem à tabela internacional de código Morse.
+- **Down Button** → dot (`.`)
+- **Up Button** → dash (`-`)
 
-O buffer de entrada suporta até 128 caracteres.
+Pressing both buttons simultaneously (**combo**) performs special actions:
 
-Modo 2 — Texto → Código Morse
+- **1 press:** confirms the current letter;
+- **2 consecutive presses:** inserts a space between words (`/`);
+- **3 consecutive presses:** ends the message and starts the decoding process.
 
-O usuário envia uma mensagem pela UART.
+Sequences that are not part of the International Morse Code table are ignored.
 
-O sistema converte automaticamente cada caractere em código Morse, representando-o através de:
+The input buffer supports up to **128 characters**.
 
-piscadas em um LED;
-sinais sonoros emitidos por um buzzer.
-Hardware utilizado
-BeagleBone Black
-Processador Sitara AM335x (Texas Instruments)
-Periféricos utilizados
-GPIO
-DMTimer7
-Controlador de interrupções (INTC)
-UART
-Watchdog Timer
-Organização do projeto
+### Mode 2 — Text → Morse Code
 
-Com objetivo didático, o projeto foi organizado em camadas.
+The user sends a message through the UART interface.
 
-Cada periférico possui sua própria implementação de driver, enquanto os módulos responsáveis pela lógica da aplicação permanecem separados, reduzindo o acoplamento entre hardware e aplicação.
+The system automatically converts each character into Morse code and represents it using:
 
-Compilação
+- LED flashes;
+- Buzzer beeps.
 
-O projeto deve ser compilado utilizando uma ferramenta de cross-compilation para ARM.
+---
 
-Após a compilação, o binário é enviado para a BeagleBone Black utilizando TFTP.
+## Hardware
 
-O repositório contém um documento em PDF explicando detalhadamente todo o processo de configuração do ambiente de desenvolvimento.
+- BeagleBone Black
+- Texas Instruments Sitara AM335x Processor
 
-Execução
+### Peripherals Used
 
-Após gravar o binário na placa:
+- GPIO
+- DMTimer7
+- Interrupt Controller (INTC)
+- UART
+- Watchdog Timer
 
-Inicie a execução do programa.
-Conecte-se à UART utilizando o Minicom.
-O menu principal será exibido.
-Escolha um dos modos de operação:
-Código Morse → Texto;
-Texto → Código Morse.
-Entradas
-Botões físicos da BeagleBone Black;
-Mensagens enviadas pela UART.
-Saídas
-Texto exibido na UART;
-Piscadas do LED;
-Sinais sonoros do buzzer.
-Funcionamento interno
+---
 
-A aplicação é coordenada pela main.c, responsável pelo fluxo principal do programa.
+## Project Structure
 
-A inicialização dos periféricos é centralizada em board.c, através da função Board_Init(), que configura e inicializa todos os drivers necessários.
+For educational purposes, the project was organized into layers.
 
-Os módulos da aplicação utilizam esses drivers para acessar o hardware, mantendo uma separação entre lógica de aplicação e controle dos periféricos.
+Each hardware peripheral has its own driver implementation, while the application logic is separated into independent modules, reducing coupling between hardware and application code.
 
-Limitações
-A implementação utiliza apenas a tabela internacional básica de código Morse, não incluindo símbolos especiais como @, $, %, entre outros.
-O buffer de entrada possui capacidade máxima de 128 caracteres.
-A entrada em código Morse foi adaptada para utilizar dois botões (ponto e traço), devido às limitações físicas e de precisão dos botões disponíveis.
-Embora o projeto utilize debounce por software e tolerâncias temporais, a implementação do método tradicional de um único botão exigiria maior precisão na detecção da duração dos pressionamentos.
-Autores
-Moisés Alencar — UFC — GitHub: @moisesalencar0
-Rafael de Castro — UFC — GitHub: @rafaelccastro007
+---
+
+## Compilation
+
+The project must be compiled using an ARM cross-compilation toolchain.
+
+After compilation, the generated binary is transferred to the BeagleBone Black using **TFTP**.
+
+A PDF document included in the repository (pratica00) explains the complete environment setup and compilation process in detail.
+
+---
+
+## Running the Project
+
+After loading the binary onto the board:
+
+1. Start the application.
+2. Connect to the UART interface using Minicom.
+3. The main menu will be displayed.
+4. Select one of the available operating modes:
+   - Morse Code → Text
+   - Text → Morse Code
+
+### Inputs
+
+- Physical buttons on the BeagleBone Black;
+- Messages sent through UART.
+
+### Outputs
+
+- Decoded text displayed on the UART terminal;
+- LED flashes;
+- Buzzer beeps.
+
+---
+
+## Internal Architecture
+
+The application's execution flow is coordinated by `main.c`.
+
+Hardware initialization is centralized in `board.c` through the `Board_Init()` function, which configures and initializes all required drivers.
+
+Application modules interact exclusively with these drivers, maintaining a clear separation between application logic and hardware control.
+
+---
+
+## Limitations
+
+- The implementation supports only the basic International Morse Code table and does not include special symbols such as `@`, `$`, `%`, and others.
+- The input buffer has a maximum capacity of **128 characters**.
+- Morse code input was adapted to use two buttons (dot and dash) due to the physical limitations and precision of the available hardware buttons.
+- Although software debouncing and timing tolerances are implemented, reproducing the traditional single-button Morse input method would require greater timing precision.
+
+---
+
+## Authors
+
+- **Moisés Alencar** — Federal University of Ceará (UFC) — GitHub: `@moisesalencar0`
+- **Rafael de Castro** — Federal University of Ceará (UFC) — GitHub: `@rafaelccastro007`
+```
