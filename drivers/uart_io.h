@@ -1,5 +1,5 @@
 /**
- * @file uart_io.h
+ * @file  uart_io.h
  * @brief UART input/output interface.
  *
  * Provides functions for transmitting and receiving data through UART0,

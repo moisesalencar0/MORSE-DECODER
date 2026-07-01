@@ -1,5 +1,5 @@
 /**
- * @file gpio.h
+ * @file  gpio.h
  * @brief GPIO (General-Purpose Input/Output) driver interface.
  */
 

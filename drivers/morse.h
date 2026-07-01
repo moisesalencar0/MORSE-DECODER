@@ -1,5 +1,5 @@
 /**
- * @file morse.h
+ * @file  morse.h
  * @brief Morse code translation interface.
  *
  * Declares the functions that implement bidirectional translation

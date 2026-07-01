@@ -1,6 +1,6 @@
 /**
- * @file   intc.h
- * @brief  ARM interrupt controller (AINTC) initialization and dispatcher.
+ * @file  intc.h
+ * @brief ARM interrupt controller (AINTC) initialization and dispatcher.
  */
 
 #ifndef INTC_H_

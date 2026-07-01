@@ -1,5 +1,5 @@
 /**
- * @file timer.c
+ * @file  timer.c
  * @brief Timer-based delay implementation using DMTimer7 (AM335x).
  */
 

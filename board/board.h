@@ -1,5 +1,5 @@
 /**
- * @file board.h
+ * @file  board.h
  * @brief Board definitions and initialization interface.
  */
 

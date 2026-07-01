@@ -1,5 +1,5 @@
 /**
- * @file morse.c
+ * @file  morse.c
  * @brief Morse code translation implementation.
  *
  * Implements the text-to-Morse and Morse-to-text translation modes,

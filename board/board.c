@@ -1,5 +1,5 @@
 /**
- * @file board.c
+ * @file  board.c
  * @brief Board initialization for AM335x GPIO setup.
  */
 

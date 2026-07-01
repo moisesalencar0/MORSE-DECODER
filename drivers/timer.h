@@ -1,5 +1,5 @@
 /**
- * @file timer.h
+ * @file  timer.h
  * @brief Timer utilities for AM335x (TRM 8).
  */
 
