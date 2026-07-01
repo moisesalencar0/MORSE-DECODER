@@ -48,12 +48,12 @@ void GPIO_IntConfig(void) {
    HWREG(SOC_AINTC_REGS + INTC_MIR_CLEAR1) |= (1 << 0);
    HWREG(GPIO2_DEBOUNCINGTIME)   = 0xFF; // ~8ms
 
-   HWREG(GPIO2_DEBOUNCENABLE)   |= BUTTON_DOWN | BUTTON_UP;
-   HWREG(GPIO2_IRQSTATUS_SET_0) |= BUTTON_DOWN | BUTTON_UP;
+   HWREG(GPIO2_DEBOUNCENABLE)   |= BUTTON_DOWN | BUTTON_UP | BUTTON_MODE;
+   HWREG(GPIO2_IRQSTATUS_SET_0) |= BUTTON_DOWN | BUTTON_UP | BUTTON_MODE;
 
-   HWREG(GPIO2_RISINGDETECT)    |= BUTTON_DOWN | BUTTON_UP;
+   HWREG(GPIO2_RISINGDETECT)    |= BUTTON_DOWN | BUTTON_UP | BUTTON_MODE;
    
-   HWREG(GPIO2_IRQSTATUS_0) = BUTTON_DOWN | BUTTON_UP;
+   HWREG(GPIO2_IRQSTATUS_0) = BUTTON_DOWN | BUTTON_UP | BUTTON_MODE;
    button_down_pressed = false;
    button_up_pressed   = false;
    button_up_pressed   = 0;
@@ -68,15 +68,15 @@ void GPIO_IntConfig(void) {
  */
 void GPIO_ISR(void) {
    uint32_t status =  HWREG(GPIO2_IRQSTATUS_0);
-   HWREG(GPIO2_IRQSTATUS_0) = status & (BUTTON_DOWN | BUTTON_UP); 
+   HWREG(GPIO2_IRQSTATUS_0) = status & (BUTTON_DOWN | BUTTON_UP | BUTTON_MODE); 
    
    if(status & BUTTON_DOWN){
       button_down_pressed = true;
    }
    if(status & BUTTON_UP){
-     button_up_pressed = true;
+      button_up_pressed = true;
    }
-   if(status & BUTTON_DOWN){
-     mode ^= 1;
+   if(status & BUTTON_MODE){
+      mode ^= 1;
    }
 }

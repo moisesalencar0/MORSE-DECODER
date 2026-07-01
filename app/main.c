@@ -60,10 +60,12 @@ void _main(void){
 int _main(void) {
     Board_Init();
     
-    //Text_To_Morse();
     while (1){
-        //text_to_morse();
-        run_morse_to_text();
+        if(mode == 0){
+            morse_to_text();
+        } else {
+            text_to_morse();
+        }
     }
 
 }

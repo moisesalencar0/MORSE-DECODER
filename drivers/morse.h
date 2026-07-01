@@ -10,13 +10,13 @@ typedef struct MorseCode MorseCode;
 char decode_letter(const char *symbols, uint32_t len);
 
 /*traduz o conteudo dos botões para texto e o tratamento de enter*/
-void run_morse_to_text(void);
+void morse_to_text(void);
 
 /*recebe string na uart e converte em transmissão de código morse*/
 void text_to_morse(void);
 
 
 
-void tela_limpar(void);
+//void tela_limpar(void);
 
 #endif

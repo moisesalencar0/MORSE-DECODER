@@ -53,7 +53,7 @@ char decode_letter(const char *symbols, uint32_t len){
     return '?';
 }
 
-void run_morse_to_text(void){
+void morse_to_text(void){
     char symbol_buf[8] = {0}; // pontos/traços da letra sendo digitada agora
     uint32_t symbol_len = 0;   // quantos símbolos já estão em symbol_buf
 
