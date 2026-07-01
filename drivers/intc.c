@@ -18,12 +18,7 @@
 /** @brief Interrupt line number for GPIO2 group A. */
 #define SYS_INT_GPIOINT2A  32
 
-/**
- * @brief Initializes the ARM interrupt controller (AINTC).
- *
- * Performs a soft-reset, waits for completion and sets
- * the priority threshold to allow all interrupt lines.
- */
+
 void INTC_Init(void) {
     HWREG(SOC_AINTC_REGS + INTC_SYSCONFIG) = INTC_SYSCONFIG_SOFTRESET;
 
@@ -32,7 +27,6 @@ void INTC_Init(void) {
 
     HWREG(SOC_AINTC_REGS + INTC_THRESHOLD) = 0xFF;
 }
-
 
 /**
  * @brief Central interrupt dispatcher.
