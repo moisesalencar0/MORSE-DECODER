@@ -73,8 +73,11 @@ void morse_to_text(void){
     printString("║ combo: 1x: letra, 2x: [ ], 3x: enter ║\r\n", 46);
     printString("╚══════════════════════════════════════╝\r\n", 122);
     printString("> ", 2);
+
+    volatile uint32_t entry_mode = mode;
     while(1){
-        
+        if (mode != entry_mode) return;
+
         // combo "no mesmo tick": os dois botões já chegaram juntos
         uint32_t is_combo = 0;
         if (button_up_pressed || button_down_pressed) {
@@ -158,7 +161,7 @@ void morse_to_text(void){
 
 /* dont touch above */
 
-void transmit_morse(char c){
+void transmit_morse(char c, uint32_t entry_mode){
     char target_char = (c >= 'a' && c <= 'z') ? c - 32 : c;
 
     for(uint32_t i = 0; i < MORSE_TABLE_SIZE; i++){
@@ -166,10 +169,12 @@ void transmit_morse(char c){
             const char *code = morse_table[i].code;
     
             for(uint32_t j = 0; code[j] != '\0'; j++){
+                if (mode != entry_mode) return;  // checa entre cada símbolo
+
                 if (code[j] == '.') {
                     Led_On(USER_LED);
                     Buzzer_On;
-                    DMTimer_Delay(200);
+                    DMTimer_Delay(150);
                     Led_Off(USER_LED);
                     Buzzer_Off;
                 } else {
@@ -197,19 +202,34 @@ void text_to_morse(void){
     printString("\r\n> ", 4);
 
     char input_buffer[101];
-    scanString(input_buffer);
+    uint32_t idx = 0;
+    uint32_t entry_mode = mode;
+
+    while(idx < 100) {
+        if (mode != entry_mode) return;
+
+        char c;
+        if (!scanChar_Non_Blocking(&c)) { DMTimer_Delay(10); continue; }
+        if (c == '\r' || c == '\n') break;
+        if ((c == '\x7f' || c == '\b') && idx > 0) { idx--; printString("\b \b", 3); continue; }
+        input_buffer[idx++] = c;
+        printChar(c);
+    }
+    input_buffer[idx] = '\0';
 
     printString("\r[Transmitindo...]\r\n", 20);
 
     int32_t i = 0;
     while(input_buffer[i] != '\0'){
+        if (mode != entry_mode) return;  // add isso
+
         if(input_buffer[i] == ' '){
             DMTimer_Delay(1200);
             i++;
             continue;
         }
-        transmit_morse(input_buffer[i]);
-        i++;
+        transmit_morse(input_buffer[i], entry_mode);
+    i++;
     }
 }
 

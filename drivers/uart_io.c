@@ -67,23 +67,8 @@ uint32_t printString(char *str, uint32_t length) {
  *
  * @return Number of characters received (excluding '\0').
  */
-uint32_t scanString(char *buf) {
-    uint32_t i = 0;
-
-    while (i < 100) {
-        char c = scanChar();
-        if (c == '\r' || c == '\n') break;
-
-        if ((c == '\x7f' || c == '\b') && i > 0) {
-            i--;
-            printString("\b \b", 3);
-            continue;
-        }
-
-        buf[i++] = c;
-        printChar(c);
-    }
-
-    buf[i] = '\0';
-    return i;
+uint8_t scanChar_Non_Blocking(char *buf) {
+    if (!(HWREG(UART0_LSR) & (1<<0))) return 0;
+    *buf = (uint8_t)HWREG(UART0_RHR);
+    return 1;
 }

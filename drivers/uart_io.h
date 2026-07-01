@@ -35,4 +35,6 @@ uint32_t printString(char *str, uint32_t len);
  */
 uint32_t scanString(char *buf);
 
+uint8_t scanChar_Non_Blocking(char *buf);
+
 #endif /* UART_IO_H_ */
