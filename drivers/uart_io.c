@@ -1,5 +1,5 @@
 /**
- * @file uart_io.c
+ * @file  uart_io.c
  * @brief UART driver implementations. (TRM 19) 
  */
 
@@ -18,11 +18,6 @@
 #define UART_HAS_DATA() \
     (HWREG(UART0_LSR) & (1 << 0))
 
-/**
- * @brief Transmits a character through UART0.
- *
- * @param c Character to be transmitted.
- */
 void printChar(uint8_t c) {
     if(c == '\n'){
         while(!(HWREG(UART0_LSR) & (1<<5)));
@@ -32,24 +27,11 @@ void printChar(uint8_t c) {
     HWREG(UART0_THR) = c;
 }
 
-/**
- * @brief Receives a character from UART0.
- *
- * @return Received character.
- */
 uint8_t scanChar(void) {
     while(!(HWREG(UART0_LSR) & (1<<0)));
     return (uint8_t)HWREG(UART0_RHR);
 }
 
-/**
- * @brief Transmits a string through UART0.
- *
- * @param str Pointer to the string to be transmitted.
- * @param length Number of characters to transmit.
- *
- * @return Number of transmitted characters.
- */
 uint32_t printString(char *str, uint32_t length) {
     for(uint32_t i = 0; i < length; i++) {
         printChar(str[i]);
@@ -57,16 +39,6 @@ uint32_t printString(char *str, uint32_t length) {
     return(length);
 }
 
-/**
- * @brief Receives a string from UART0 until Enter is pressed.
- *
- * Reads characters one by one, echoing each back to the terminal,
- * until '\r' or '\n' is received or the buffer is full.
- *
- * @param buf    Buffer to store the received string.
- *
- * @return Number of characters received (excluding '\0').
- */
 uint8_t scanChar_Non_Blocking(char *buf) {
     if (!(HWREG(UART0_LSR) & (1<<0))) return 0;
     *buf = (uint8_t)HWREG(UART0_RHR);

@@ -1,3 +1,9 @@
+/**
+ * @file  morse.c
+ * @brief Include the implementation the 2 modes of morse-text translation
+ *         Called in main
+ */
+
 #include "morse.h"
 #include "gpio.h"
 #include "timer.h"
