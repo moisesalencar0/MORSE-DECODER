@@ -74,14 +74,13 @@ void run_morse_to_text(void){
     printString("╚══════════════════════════════════════╝\r\n", 122);
     printString("> ", 2);
     while(1){
+        
         // combo "no mesmo tick": os dois botões já chegaram juntos
-        uint32_t is_combo = (button_down_pressed && button_up_pressed) ||
-                           (button_down_pressed && Pin_Read(BUTTON_UP)) ||
-                           (button_up_pressed && Pin_Read(BUTTON_DOWN));
-
-        // combo "atrasado": o parceiro chegou depois, dentro da janela de tolerância
-        if (!is_combo && pending_symbol == '.' && button_up_pressed)   is_combo = 1;
-        if (!is_combo && pending_symbol == '-' && button_down_pressed) is_combo = 1;
+        uint32_t is_combo = 0;
+        if (button_up_pressed || button_down_pressed) {
+            DMTimer_Delay(100);
+            is_combo = (button_down_pressed && button_up_pressed);
+        }
 
         if(is_combo){
             button_down_pressed = false;
