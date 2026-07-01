@@ -10,8 +10,24 @@
 
 void DMTimer_Delay(uint32_t us); // in seconds
 
+/**
+ * @brief Configures DMTimer7 for delay generation.
+ *
+ * Activates clock.
+ * Enables posted mode, stops the timer and resets
+ * counter and load registers to a clean state
+ */
 void DMTimer_Init(void);
+
+/** @brief Unmasks DMTimer7 interrupt line (95) in the INTC. */
 void DMTimer_IntConfig(void);
+
+/**
+ * @brief DMTimer7 overflow interrupt service routine.
+ *
+ * Clears the overflow flag in hardware and signals
+ * the delay function through @c timer_overflow.
+ */
 void DMTimer_ISR(void);
 
 extern vuint32_t timer_overflow;

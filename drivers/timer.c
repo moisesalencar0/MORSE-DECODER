@@ -16,13 +16,6 @@
 
 #define SETTING  ((1<<18) | 2)
 
-/**
- * @brief Configures DMTimer7 for delay generation.
- *
- * Activates clock.
- * Enables posted mode, stops the timer and resets
- * counter and load registers to a clean state.
- */
 void DMTimer_Init(void) {
     HWREG(SOC_CM_PER_REGS + CM_PER_TIMER7_CLKCTRL) |= SETTING;
     while((HWREG(SOC_CM_PER_REGS + CM_PER_TIMER7_CLKCTRL) & SETTING) == 0){};
@@ -33,7 +26,6 @@ void DMTimer_Init(void) {
     HWREG(SOC_DMTIMER_7_REGS + DMTIMER_TCRR)   = 0x00000000;
     HWREG(SOC_DMTIMER_7_REGS + DMTIMER_TLDR)   = 0x00000000;
 }
-
 
 static uint32_t DMTimer_WritePostedStatusGet(uint32_t baseAdd){
     return HWREG(baseAdd + DMTIMER_TWPS);
@@ -96,15 +88,8 @@ void DMTimer_Disable(uint32_t baseAdd) {
     HWREG(baseAdd + DMTIMER_TCLR) &= ~DMTIMER_TCLR_ST;
 }
 
-/** @brief Global flag set by DMTimer7 ISR on overflow. */
 volatile uint32_t timer_overflow = false;
 
-/**
- * @brief DMTimer7 overflow interrupt service routine.
- *
- * Clears the overflow flag in hardware and signals
- * the delay function through @c timer_overflow].
- */
 void DMTimer_ISR(void) {
     HWREG(SOC_DMTIMER_7_REGS + DMTIMER_IRQSTATUS) = 0x2;
     timer_overflow = true;
@@ -136,7 +121,6 @@ void DMTimer_Delay(uint32_t us) {
     DMTimer_Disable(SOC_DMTIMER_7_REGS);
 }
 
-/** @brief Unmasks DMTimer7 interrupt line (95) in the INTC. */
 void DMTimer_IntConfig(void) {
     HWREG(SOC_AINTC_REGS + INTC_MIR_CLEAR2) |= (1 << 31);
 }
