@@ -66,7 +66,7 @@ $(TARGET).bin: $(TARGET).elf
 
 #/srv/tftp
 deploy: release
-	sudo cp $(TARGET).bin /home/rafael-castro/Documentos/SEMESTRE3/tpse1/lab/tftp
+	sudo cp $(TARGET).bin /srv/tftp
 
 clean:
 	rm -f obj/*.o
