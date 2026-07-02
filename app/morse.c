@@ -87,6 +87,9 @@ char decode_letter(const char *symbols, uint32_t len){
 }
 
 void morse_to_text(void){
+    button_down_pressed = false;
+    button_up_pressed = false;
+
     char symbol_buf[8] = {0};
     uint32_t symbol_len = 0;
 
