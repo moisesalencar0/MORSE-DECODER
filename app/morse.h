@@ -32,4 +32,6 @@ void morse_to_text(void);
  */
 void text_to_morse(void);
 
+void Menu_Morse(void);
+
 #endif /* MORSE_H_ */

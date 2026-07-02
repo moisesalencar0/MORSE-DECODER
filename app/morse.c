@@ -39,6 +39,27 @@ static const MorseCode morse_table[] = {
 
 #define MORSE_TABLE_SIZE (sizeof(morse_table) / sizeof(morse_table[0]))
 
+void Menu_Morse(void){
+    printString("\033[35m", 5);
+    printString("═════════════════════════════════════════════════════════════════\r\n", 197);
+    printString("▗▖  ▗▖ ▗▄▖ ▗▄▄▖  ▗▄▄▖▗▄▄▄▖    ▗▄▄▄ ▗▄▄▄▖ ▗▄▄▖ ▗▄▖ ▗▄▄▄ ▗▄▄▄▖▗▄▄▖ \r\n", 165);
+    printString("▐▛▚▞▜▌▐▌ ▐▌▐▌ ▐▌▐▌   ▐▌       ▐▌  █▐▌   ▐▌   ▐▌ ▐▌▐▌  █▐▌   ▐▌ ▐▌\r\n", 143);
+    printString("▐▌  ▐▌▐▌ ▐▌▐▛▀▚▖ ▝▀▚▖▐▛▀▀▘    ▐▌  █▐▛▀▀▘▐▌   ▐▌ ▐▌▐▌  █▐▛▀▀▘▐▛▀▚▖\r\n", 165);
+    printString("▐▌  ▐▌▝▚▄▞▘▐▌ ▐▌▗▄▄▞▘▐▙▄▄▖    ▐▙▄▄▀▐▙▄▄▖▝▚▄▄▖▝▚▄▞▘▐▙▄▄▀▐▙▄▄▖▐▌ ▐▌\r\n", 181);
+    printString("\r\n", 2);
+    printString("📡 Tradutor bidirecional Morse <-> \r\n", 39);
+    printString("   Texto para BeagleBone Black.\r\n", 33);
+    printString("Tecnicas de Programacao para Sistemas Embarcados - UFC.\r\n", 57);
+    printString("Prof. Francisco Helder\r\n", 24);
+    printString("\r\n", 2);
+    printString("Moises Alencar @moisesalencar0\r\n", 32);
+    printString("Rafael Castro  @rafaelccastro007\r\n", 34);
+    printString("═════════════════════════════════════════════════════════════════\r\n", 197);
+    printString("\033[0m", 4);
+    printString("\r\n", 2);
+}
+
+
 /** ============================================================================
  * @brief MORSE -> TEXT RELATED FUNCTIONS
  * @author @rafaelccastro007
@@ -77,12 +98,8 @@ void morse_to_text(void){
     char pending_symbol = 0;
     uint32_t pending_ms = 0;
     
-    printString("\r\n", 2);
-    printString("╔══════════════════════════════════════╗\r\n", 122);
-    printString("║       MODO: MORSE  ->  TEXTO         ║\r\n", 46);
-    printString("╠══════════════════════════════════════╣\r\n", 122);
-    printString("║ combo: 1x: letra, 2x: [ ], 3x: enter ║\r\n", 46);
-    printString("╚══════════════════════════════════════╝\r\n", 122);
+    printString("\r\n=== MORSE -> TEXTO ===\r\n", 26);
+    printString("combo: 1x letra | 2x espaco | 3x enter\r\n", 40);
     printString("> ", 2);
 
     uint32_t entry_mode = mode;
@@ -206,13 +223,8 @@ void transmit_morse(char c, uint32_t entry_mode){
 
 void text_to_morse(void){
     uart_flush();
-    printString("\r\n", 2);
-    printString("╔══════════════════════════════════════╗\r\n", 122);
-    printString("║       MODO: TEXTO  ->  MORSE         ║\r\n", 46);
-    printString("╠══════════════════════════════════════╣\r\n", 122);
-    printString("║  Digite a frase e pressione Enter    ║\r\n", 46);
-    printString("║  [SWITCH] para trocar de modo        ║\r\n", 46);
-    printString("╚══════════════════════════════════════╝\r\n", 122);
+    printString("\r\n=== TEXTO -> MORSE ===\r\n", 26);
+    printString("digite e pressione enter | [SWITCH] troca modo\r\n", 48);
     printString("\r\n> ", 4);
 
     char input_buffer[101];

@@ -18,7 +18,7 @@
  */
 int _main(void) {
     Board_Init();
-    //Aqui adicionar um menu!
+    Menu_Morse();
     while (1){
         if(mode == 0){
             morse_to_text();

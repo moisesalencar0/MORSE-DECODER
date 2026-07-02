@@ -23,18 +23,18 @@ LDFLAGS = -T boot/memmap.ld
 SRCS = \
 	boot/startup.s \
 	app/main.c \
+	app/morse.c\
 	drivers/timer.c \
 	drivers/watchdog.c \
 	drivers/uart_io.c \
 	drivers/gpio.c \
 	drivers/intc.c \
-	drivers/morse.c\
 	board/board.c
 
 OBJS = $(addprefix obj/, $(notdir $(SRCS:.c=.o)))
 OBJS := $(OBJS:.s=.o)
 
-TARGET = bin/temp_monitor
+TARGET = bin/morse_decoder
 
 all: debug
 
