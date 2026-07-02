@@ -39,8 +39,9 @@ static const MorseCode morse_table[] = {
 
 #define MORSE_TABLE_SIZE (sizeof(morse_table) / sizeof(morse_table[0]))
 
-/* ============================================================================
- * MORSE -> TEXT RELATED FUNCTIONS
+/** ============================================================================
+ * @brief MORSE -> TEXT RELATED FUNCTIONS
+ * @author @rafaelccastro007
  * ========================================================================= */
 
 /**
@@ -84,7 +85,7 @@ void morse_to_text(void){
     printString("╚══════════════════════════════════════╝\r\n", 122);
     printString("> ", 2);
 
-    volatile uint32_t entry_mode = mode;
+    uint32_t entry_mode = mode;
     while(1){
         if (mode != entry_mode) return;
 
@@ -158,8 +159,9 @@ void morse_to_text(void){
     }
 }
 
-/* ============================================================================
- * TEXT -> MORSE RELATED FUNCTIONS
+/** ===========================================================================
+ * @brief TEXT -> MORSE RELATED FUNCTIONS
+ * @author @moisesalencar0
  * ========================================================================= */
 
 /**
@@ -203,7 +205,7 @@ void transmit_morse(char c, uint32_t entry_mode){
 
 
 void text_to_morse(void){
-
+    uart_flush();
     printString("\r\n", 2);
     printString("╔══════════════════════════════════════╗\r\n", 122);
     printString("║       MODO: TEXTO  ->  MORSE         ║\r\n", 46);
@@ -214,22 +216,37 @@ void text_to_morse(void){
     printString("\r\n> ", 4);
 
     char input_buffer[101];
-    uint32_t idx = 0;
+    uint32_t index = 0;
     uint32_t entry_mode = mode;
 
-    while(idx < 100) {
+    while(index < 100) {
         if (mode != entry_mode) return;
 
         char c;
         if (!scanChar_Non_Blocking(&c)) { DMTimer_Delay(10); continue; }
         if (c == '\r' || c == '\n') break;
-        if ((c == '\x7f' || c == '\b') && idx > 0) { idx--; printString("\b \b", 3); continue; }
-        input_buffer[idx++] = c;
+        if ((c == '\x7f' || c == '\b')) {
+            if (index > 0) {
+                index--;
+                printString("\b \b", 3);
+            }
+            continue;
+        }
+        input_buffer[index++] = c;
         printChar(c);
-    }
-    input_buffer[idx] = '\0';
 
-    printString("\r[Transmitindo...]\r\n", 20);
+        if (index == 99) {
+        printString("\r\033[2K[LIMITE DE 100 CARACTERES ATINGIDO]\r\n", 42);
+        return;
+    }
+    }
+    input_buffer[index] = '\0';
+    
+    if(input_buffer[0] == '\0'){
+        printString("\r[Mensagem Vazia]\r\n", 19);
+        return;
+    }
+    printString("\r\033[2K[Transmitindo...]\r\n", 24);
 
     int32_t i = 0;
     while(input_buffer[i] != '\0'){

@@ -46,4 +46,6 @@ uint32_t printString(char *str, uint32_t len);
  */
 uint8_t scanChar_Non_Blocking(char *buf);
 
+void uart_flush(void);
+
 #endif /* UART_IO_H_ */

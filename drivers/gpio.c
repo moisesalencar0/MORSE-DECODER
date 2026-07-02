@@ -41,7 +41,7 @@ void GPIO_IntConfig(void) {
    HWREG(GPIO2_IRQSTATUS_0) = BUTTON_DOWN | BUTTON_UP | BUTTON_MODE;
    button_down_pressed = false;
    button_up_pressed   = false;
-   button_up_pressed   = 0;
+   mode   = 0;
 }
 
 

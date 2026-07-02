@@ -44,3 +44,7 @@ uint8_t scanChar_Non_Blocking(char *buf) {
     *buf = (uint8_t)HWREG(UART0_RHR);
     return 1;
 }
+
+void uart_flush(void){
+    while (HWREG(UART0_LSR) & (1<<0)) (void)HWREG(UART0_RHR);
+}
