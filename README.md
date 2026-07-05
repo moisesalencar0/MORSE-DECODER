@@ -17,7 +17,7 @@ The objective of this project was to apply, in practice, the fundamental concept
 
 ## Demo
 
-[![Morse Translator Demo](https://img.youtube.com/vi/SEU_VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=qoMjnd7s96E)
+[![Morse Translator Demo](https://www.youtube.com/watch?v=qoMjnd7s96E)
 ---
 
 ## Features
