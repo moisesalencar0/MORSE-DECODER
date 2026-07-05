@@ -75,21 +75,6 @@ For educational purposes, the project was organized into layers.
 
 Each hardware peripheral has its own driver implementation, while the application logic is separated into independent modules, reducing coupling between hardware and application code.
 
-MORSE-DECODER/
-├── app/
-│   ├── main.c
-│   ├── morse.c
-│   └── morse.h
-├── board/
-│   ├── board.c
-│   └── board.h
-├── drivers/
-│   ├── gpio.c / gpio.h
-│   ├── intc.c / intc.h
-│   ├── timer.c / timer.h
-│   ├── uart_io.c / uart_io.h
-│   └── watchdog.c / watchdog.h
-
 ---
 
 ## Compilation
