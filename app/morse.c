@@ -107,7 +107,10 @@ void morse_to_text(void){
 
     uint32_t entry_mode = mode;
     while(1){
-        if (mode != entry_mode) return;
+        if (mode != entry_mode) {
+            printString("\r\n", 2);
+            return;
+        }
 
         uint32_t is_combo = 0;
         if (button_up_pressed || button_down_pressed) {
@@ -228,14 +231,17 @@ void text_to_morse(void){
     uart_flush();
     printString("\r\n=== TEXTO -> MORSE ===\r\n", 26);
     printString("digite e pressione enter | [SWITCH] troca modo\r\n", 48);
-    printString("\r\n> ", 4);
+    printString("> ", 2);
 
     char input_buffer[101];
     uint32_t index = 0;
     uint32_t entry_mode = mode;
 
     while(index < 100) {
-        if (mode != entry_mode) return;
+        if (mode != entry_mode){
+            printString("\r\n", 2);
+            return;
+        }
 
         char c;
         if (!scanChar_Non_Blocking(&c)) { DMTimer_Delay(10); continue; }
@@ -265,7 +271,10 @@ void text_to_morse(void){
 
     int32_t i = 0;
     while(input_buffer[i] != '\0'){
-        if (mode != entry_mode) return;
+        if (mode != entry_mode){
+            printString("\r\n", 2);
+            return;
+        }
 
         if(input_buffer[i] == ' '){
             DMTimer_Delay(1200);

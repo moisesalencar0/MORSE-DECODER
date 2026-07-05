@@ -1,4 +1,3 @@
-```md
 # Morse Code to Text and Text to Morse Code Translator
 
 ## About the Project
@@ -15,6 +14,10 @@ The objective of this project was to apply, in practice, the fundamental concept
 
 **Programming Techniques for Embedded Systems**
 
+
+## Demo
+
+[![Morse Translator Demo](https://img.youtube.com/vi/SEU_VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=qoMjnd7s96E)
 ---
 
 ## Features
@@ -72,11 +75,26 @@ For educational purposes, the project was organized into layers.
 
 Each hardware peripheral has its own driver implementation, while the application logic is separated into independent modules, reducing coupling between hardware and application code.
 
+MORSE-DECODER/
+├── app/
+│   ├── main.c
+│   ├── morse.c
+│   └── morse.h
+├── board/
+│   ├── board.c
+│   └── board.h
+├── drivers/
+│   ├── gpio.c / gpio.h
+│   ├── intc.c / intc.h
+│   ├── timer.c / timer.h
+│   ├── uart_io.c / uart_io.h
+│   └── watchdog.c / watchdog.h
+
 ---
 
 ## Compilation
 
-The project must be compiled using an ARM cross-compilation toolchain.
+The project must be compiled using an ARM cross-compilation toolchain (arm-none-eabi-gcc)
 
 After compilation, the generated binary is transferred to the BeagleBone Black using **TFTP**.
 
@@ -131,4 +149,3 @@ Application modules interact exclusively with these drivers, maintaining a clear
 
 - **Moisés Alencar** — Federal University of Ceará (UFC) — GitHub: `@moisesalencar0`
 - **Rafael de Castro** — Federal University of Ceará (UFC) — GitHub: `@rafaelccastro007`
-```
