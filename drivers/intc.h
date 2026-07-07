@@ -14,4 +14,4 @@
  */
 void INTC_Init(void);
 
-#endif /* MENU_H_ */
+#endif /* INTC_H_ */

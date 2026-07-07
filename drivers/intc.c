@@ -18,7 +18,6 @@
 /** @brief Interrupt line number for GPIO2 group A. */
 #define SYS_INT_GPIOINT2A  32
 
-
 void INTC_Init(void) {
     HWREG(SOC_AINTC_REGS + INTC_SYSCONFIG) = INTC_SYSCONFIG_SOFTRESET;
 

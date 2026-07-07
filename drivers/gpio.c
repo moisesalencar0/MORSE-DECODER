@@ -14,7 +14,6 @@
 
 #define SETTING  ((1<<18) | 2)
 
-
 void GPIO_Init(void){
    HWREG(SOC_CM_PER_REGS + CM_PER_GPIO1_CLKCTRL) |= SETTING;
    while((HWREG(SOC_CM_PER_REGS + CM_PER_GPIO1_CLKCTRL) & SETTING) == 0){};
@@ -23,11 +22,9 @@ void GPIO_Init(void){
    while((HWREG(SOC_CM_PER_REGS + CM_PER_GPIO2_CLKCTRL) & SETTING) == 0){};
 }
 
-
 vuint32_t button_down_pressed = false;
 vuint32_t button_up_pressed = false;
 vuint32_t mode = 0;
-
 
 void GPIO_IntConfig(void) {
    HWREG(SOC_AINTC_REGS + INTC_MIR_CLEAR1) |= (1 << 0);
@@ -43,7 +40,6 @@ void GPIO_IntConfig(void) {
    button_up_pressed   = false;
    mode   = 0;
 }
-
 
 void GPIO_ISR(void) {
    uint32_t status =  HWREG(GPIO2_IRQSTATUS_0);

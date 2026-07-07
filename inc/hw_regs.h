@@ -1,8 +1,7 @@
 /**
- * @file    bbb_regs.h
- * @brief   AM335x / BeagleBone Black register definitions and board pin masks.
+ * @file  bbb_regs.h
+ * @brief AM335x / BeagleBone Black register definitions and board pin masks.
  */
-
 #ifndef BBB_REGS_H_
 #define BBB_REGS_H_
 
@@ -11,7 +10,6 @@
 /* ============================================================================
  * BBB PINMUX REGISTES
  * ========================================================================= */
-
 #define CM_CONF_GPMC_A1                  (0x844) // GPIO1_17
 #define CM_CONF_GPMC_A5                  (0x854) // GPIO1_21
 #define CM_CONF_GPMC_BEN1                (0x878) // GPIO1_28
@@ -23,7 +21,6 @@
 /* ============================================================================
  * CLOCK MANAGEMENT REGISTERS
  * ========================================================================= */
-
 #define CM_PER_GPIO1_CLKCTRL             (0x0AC)
 #define CM_PER_GPIO2_CLKCTRL             (0x0B0)
 #define CM_PER_TIMER7_CLKCTRL            (0x07C)
@@ -31,7 +28,6 @@
 /* ============================================================================
  * GPIO REGISTERS
  * ========================================================================= */
-
 #define GPIO1_OE                         (SOC_GPIO_1_REGS + 0x134)
 #define GPIO1_CLEARDATAOUT               (SOC_GPIO_1_REGS + 0x190)
 #define GPIO1_SETDATAOUT                 (SOC_GPIO_1_REGS + 0x194)
@@ -50,7 +46,6 @@
 /* ============================================================================
  * UART0 REGISTERS
  * ========================================================================= */
-
 #define UART0_RHR                        (SOC_UART_0_REGS + 0x000)
 #define UART0_THR                        (SOC_UART_0_REGS + 0x000)
 #define UART0_LSR                        (SOC_UART_0_REGS + 0x014)
@@ -64,7 +59,6 @@
 /* ============================================================================
  * DMTIMER REGISTERS
  * ========================================================================= */
-
 #define DMTIMER_TCLR                     (0x038)
 #define DMTIMER_TCRR                     (0x03C)
 #define DMTIMER_TLDR                     (0x040)
@@ -86,7 +80,6 @@
 /* ============================================================================
  * WATCHDOG REGISTERS
  * ========================================================================= */
-
 #define WDT1_WTGR                        (SOC_WDT_1_REGS + 0x030) // Trigger Register
 #define WDT1_WWPS                        (SOC_WDT_1_REGS + 0x034) // Write Posting Bits Register
 #define WDT1_WSPR                        (SOC_WDT_1_REGS + 0x048) // Start/Stop Register
@@ -96,7 +89,6 @@
 /* ============================================================================
  * INTC REGISTERS
  * ========================================================================= */
-
 #define INTC_SYSCONFIG                   (0x010)
 #define INTC_SYSSTATUS                   (0x014)
 #define INTC_THRESHOLD                   (0x068)
@@ -114,4 +106,4 @@
 #define INTC_SIR_IRQ                     (0x040)
 #define INTC_CONTROL                     (0x048)
 
-#endif
+#endif /* HW_REGS_H */

@@ -59,7 +59,6 @@ void Menu_Morse(void){
     printString("\r\n", 2);
 }
 
-
 /** ============================================================================
  * @brief MORSE -> TEXT RELATED FUNCTIONS
  * @author @rafaelccastro007
@@ -225,7 +224,6 @@ void transmit_morse(char c, uint32_t entry_mode){
         }
     }
 }
-
 
 void text_to_morse(void){
     uart_flush();
